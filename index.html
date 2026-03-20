@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ENTARTET — The Art Hitler Feared</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Space+Mono:wght@400;700&display=swap');
+:root{
+  --ink:#050408;--bone:#ede5d4;--gold:#c4a44a;--rust:#7a2510;
+  --smoke:#5c5650;--blue:#0d1a35;--bluemid:#1b3468;--bluelight:#4a7aac;--bluepale:#9ab8d4;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--ink);color:var(--bone);font-family:'Cormorant Garamond',serif;overflow-x:hidden;cursor:none}
+#cdot{position:fixed;z-index:9999;pointer-events:none;width:6px;height:6px;background:var(--gold);border-radius:50%;transform:translate(-50%,-50%)}
+#cring{position:fixed;z-index:9998;pointer-events:none;width:34px;height:34px;border-radius:50%;border:1px solid rgba(196,164,74,.4);transform:translate(-50%,-50%);transition:all .22s cubic-bezier(.25,.46,.45,.94)}
+body.hov #cring{transform:translate(-50%,-50%) scale(1.9);border-color:var(--gold)}
+body::after{content:'';position:fixed;inset:0;z-index:9990;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.05'/%3E%3C/svg%3E");opacity:.42}
+#pbar{position:fixed;top:0;left:0;z-index:9997;height:2px;width:0;background:linear-gradient(90deg,var(--rust),var(--gold));transition:width .1s linear}
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:2rem 4rem;display:flex;justify-content:space-between;align-items:center;background:linear-gradient(to bottom,rgba(5,4,8,.9) 0%,transparent 100%)}
+.nlogo{font-family:'Space Mono',monospace;font-size:.62rem;letter-spacing:.38em;color:var(--gold);text-decoration:none;text-transform:uppercase}
+.nlinks{display:flex;gap:2.2rem;list-style:none}
+.nlinks a{font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(237,229,212,.45);text-decoration:none;transition:color .3s}
+.nlinks a:hover{color:var(--gold)}
+#spotify-player{position:fixed;bottom:0;left:0;right:0;z-index:1001;transform:translateY(100%);transition:transform .5s cubic-bezier(.16,1,.3,1);background:rgba(5,4,8,.97);border-top:1px solid rgba(196,164,74,.2)}
+#spotify-player.open{transform:translateY(0)}
+#spotify-player iframe{display:block}
+#sp-toggle{position:fixed;bottom:1.8rem;right:3rem;z-index:1002;background:rgba(5,4,8,.95);border:1px solid rgba(196,164,74,.3);color:var(--gold);font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.2em;text-transform:uppercase;padding:.65rem 1.1rem;cursor:none;display:flex;align-items:center;gap:.65rem;transition:all .3s}
+#sp-toggle:hover{border-color:var(--gold);background:rgba(196,164,74,.06)}
+.mbars{display:flex;gap:2px;align-items:flex-end;height:12px}
+.mbars span{width:2px;background:var(--gold);border-radius:1px;animation:mbar .85s ease-in-out infinite alternate}
+.mbars span:nth-child(1){height:4px;animation-delay:0s}.mbars span:nth-child(2){height:10px;animation-delay:.13s}.mbars span:nth-child(3){height:6px;animation-delay:.28s}.mbars span:nth-child(4){height:12px;animation-delay:.08s}.mbars span:nth-child(5){height:7px;animation-delay:.22s}
+#sp-toggle.off .mbars span{animation-play-state:paused;height:3px}
+@keyframes mbar{from{transform:scaleY(.25)}to{transform:scaleY(1)}}
+#landscape-bg{position:fixed;inset:0;z-index:0;pointer-events:none}
+#landscape-canvas{width:100%;height:100%;display:block}
+.panel{position:relative;width:100%;min-height:100vh;display:flex;flex-direction:column;overflow:hidden}
+#p-hero{justify-content:flex-end;padding:0 4rem 8rem;background:transparent}
+.hero-kicker{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.42em;color:var(--gold);text-transform:uppercase;margin-bottom:2.2rem;position:relative;z-index:1;opacity:0;transform:translateY(18px);animation:fu 1s .4s cubic-bezier(.16,1,.3,1) forwards}
+.hero-title{font-family:'Playfair Display',serif;font-size:clamp(5rem,14vw,15rem);font-weight:900;line-height:.84;letter-spacing:-.02em;position:relative;z-index:1;overflow:hidden}
+.htl{display:block;transform:translateY(112%);opacity:0}
+.htl:nth-child(1){animation:su 1.1s .65s cubic-bezier(.16,1,.3,1) forwards}
+.htl:nth-child(2){animation:su 1.1s .88s cubic-bezier(.16,1,.3,1) forwards;color:transparent;-webkit-text-stroke:1.5px var(--gold);font-style:italic}
+.htl:nth-child(3){animation:su 1.1s 1.1s cubic-bezier(.16,1,.3,1) forwards}
+.hero-foot{position:relative;z-index:1;margin-top:3rem;display:flex;gap:5rem;align-items:flex-start;opacity:0;animation:fu 1s 1.45s forwards}
+.hero-foot p{font-size:1.18rem;font-weight:300;line-height:1.78;max-width:40ch;color:rgba(237,229,212,.65);font-style:italic}
+.hero-meta{font-family:'Space Mono',monospace;font-size:.57rem;letter-spacing:.27em;color:var(--smoke);text-transform:uppercase;line-height:2.1}
+.shint{position:absolute;bottom:3rem;right:4rem;z-index:1;display:flex;flex-direction:column;align-items:center;gap:.6rem;opacity:0;animation:fu 1s 2.1s forwards}
+.shint span{font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.35em;color:var(--smoke);text-transform:uppercase;writing-mode:vertical-rl}
+.sline{width:1px;height:52px;background:linear-gradient(to bottom,var(--gold),transparent);animation:sp 2.2s ease-in-out infinite}
+@keyframes sp{0%,100%{opacity:.25}50%{opacity:1}}
+.seclab{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.38em;color:var(--gold);text-transform:uppercase;display:flex;align-items:center;gap:1.1rem;margin-bottom:1.6rem}
+.seclab::before{content:'';display:inline-block;width:28px;height:1px;background:var(--gold)}
+#p-intro{background:rgba(7,5,13,.97);padding:10rem 4rem;display:grid;grid-template-columns:1fr 1fr;gap:7rem;align-items:start}
+.intro-h{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,3.8vw,4rem);font-weight:700;line-height:1.1;margin-bottom:2.5rem;opacity:0;transform:translateY(30px);transition:all 1s cubic-bezier(.16,1,.3,1)}
+.intro-h.vis{opacity:1;transform:none}
+.intro-h em{font-style:italic;color:var(--gold)}
+.ruler{width:100%;height:1px;background:linear-gradient(to right,rgba(196,164,74,.3),transparent);margin:3.5rem 0;opacity:0;transition:opacity 1s .2s}
+.ruler.vis{opacity:1}
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:2.2rem}
+.stat{opacity:0;transform:translateY(16px);transition:all .8s cubic-bezier(.16,1,.3,1)}
+.stat.vis{opacity:1;transform:none}
+.stn{font-family:'Playfair Display',serif;font-size:3.4rem;font-weight:900;color:var(--gold);line-height:1;margin-bottom:.35rem}
+.stl{font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:.2em;color:var(--smoke);text-transform:uppercase;line-height:1.65}
+.ibody p{font-size:1.1rem;line-height:1.92;color:rgba(237,229,212,.65);font-weight:300;margin-bottom:1.4rem;opacity:0;transform:translateY(22px);transition:all .9s cubic-bezier(.16,1,.3,1)}
+.ibody p.vis{opacity:1;transform:none}
+#p-hitler{background:rgba(12,8,6,.98);padding:10rem 4rem;position:relative;overflow:hidden}
+#p-hitler::before{content:'ADOLF HITLER';position:absolute;font-family:'Playfair Display',serif;font-size:16vw;font-weight:900;color:rgba(122,37,16,.06);top:50%;left:50%;transform:translate(-50%,-50%);white-space:nowrap;pointer-events:none;letter-spacing:-.02em}
+.hit-grid{display:grid;grid-template-columns:1fr 1fr;gap:8rem;align-items:start;position:relative;z-index:1}
+.hit-h{font-family:'Playfair Display',serif;font-size:clamp(2.5rem,5vw,5.5rem);font-weight:900;line-height:.9;margin-bottom:3rem;opacity:0;transform:translateY(40px);transition:all 1.1s cubic-bezier(.16,1,.3,1)}
+.hit-h.vis{opacity:1;transform:none}
+.hit-h em{font-style:italic;color:var(--rust)}
+.hit-body p{font-size:1.08rem;line-height:1.9;color:rgba(237,229,212,.62);font-weight:300;margin-bottom:1.3rem;opacity:0;transform:translateY(20px);transition:all .9s cubic-bezier(.16,1,.3,1)}
+.hit-body p.vis{opacity:1;transform:none}
+.hit-works{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:3rem}
+.hw{background:rgba(122,37,16,.08);border:1px solid rgba(122,37,16,.2);padding:1.8rem;opacity:0;transform:translateY(18px);transition:all .8s cubic-bezier(.16,1,.3,1)}
+.hw.vis{opacity:1;transform:none}
+.hw-title{font-family:'Playfair Display',serif;font-size:1rem;font-style:italic;color:rgba(237,229,212,.7);margin-bottom:.4rem}
+.hw-desc{font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.18em;color:var(--smoke);line-height:1.7}
+.hit-rejections{margin-top:4rem;padding:3rem;border:1px solid rgba(122,37,16,.25);position:relative}
+.hit-rejections::before{content:'REJECTED';position:absolute;top:-0.7rem;left:2rem;font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.35em;color:var(--rust);background:rgba(12,8,6,.98);padding:0 .8rem;text-transform:uppercase}
+.hit-rejections p{font-size:1rem;line-height:1.85;color:rgba(237,229,212,.55);font-weight:300;font-style:italic}
+#p-exh{background:rgba(10,9,18,.97);padding:10rem 0}
+.exh-head{padding:0 4rem;margin-bottom:6rem}
+.exh-h{font-family:'Playfair Display',serif;font-size:clamp(2.8rem,6vw,7.5rem);font-weight:900;line-height:.88;max-width:18ch;opacity:0;transform:translateY(45px);transition:all 1.1s cubic-bezier(.16,1,.3,1)}
+.exh-h.vis{opacity:1;transform:none}
+.exh-h em{font-style:italic;color:var(--rust)}
+.two-col{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid rgba(196,164,74,.1)}
+.tcol{padding:4rem;border-right:1px solid rgba(196,164,74,.08)}
+.tcol:last-child{border-right:none}
+.tcol-t{font-family:'Playfair Display',serif;font-size:1.5rem;font-style:italic;color:var(--gold);margin-bottom:1.4rem}
+.tcol p{font-size:1.05rem;line-height:1.88;color:rgba(237,229,212,.6);font-weight:300;margin-bottom:1.1rem}
+.ctrack{display:flex;gap:3px;padding:4rem;overflow-x:auto;scrollbar-width:none;margin-top:2rem}
+.ctrack::-webkit-scrollbar{display:none}
+.pcard{flex:0 0 300px;height:400px;background:#1a1015;position:relative;overflow:hidden;cursor:none}
+.pcard canvas{width:100%;height:100%;display:block}
+.pcard-info{position:absolute;bottom:0;left:0;right:0;padding:1.6rem 1.5rem;background:linear-gradient(to top,rgba(5,4,8,.96) 0%,transparent 100%);transform:translateY(55%);transition:transform .5s cubic-bezier(.25,.46,.45,.94)}
+.pcard:hover .pcard-info{transform:none}
+.pcard-click{position:absolute;top:1rem;right:1rem;font-family:'Space Mono',monospace;font-size:.48rem;letter-spacing:.2em;color:rgba(196,164,74,.7);text-transform:uppercase;opacity:0;transition:opacity .3s;pointer-events:none;background:rgba(5,4,8,.7);padding:.3rem .6rem}
+.pcard:hover .pcard-click{opacity:1}
+.pct{font-family:'Playfair Display',serif;font-size:1rem;font-style:italic;margin-bottom:.28rem}
+.pca{font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.2em;color:var(--gold);text-transform:uppercase}
+.pcy{font-family:'Space Mono',monospace;font-size:.48rem;letter-spacing:.17em;color:var(--smoke);margin-top:.55rem}
+#p-nazi-art{background:rgba(14,10,8,.98);padding:10rem 4rem;position:relative;overflow:hidden}
+.naz-h{font-family:'Playfair Display',serif;font-size:clamp(2.5rem,5vw,5.5rem);font-weight:900;line-height:.9;margin-bottom:5rem;opacity:0;transform:translateY(40px);transition:all 1.1s cubic-bezier(.16,1,.3,1)}
+.naz-h.vis{opacity:1;transform:none}
+.naz-h em{font-style:italic;color:rgba(237,229,212,.3)}
+.naz-split{display:grid;grid-template-columns:1.2fr 1fr;gap:7rem;align-items:start}
+.naz-body p{font-size:1.08rem;line-height:1.9;color:rgba(237,229,212,.6);font-weight:300;margin-bottom:1.3rem;opacity:0;transition:all .9s cubic-bezier(.16,1,.3,1)}
+.naz-body p.vis{opacity:1}
+.approved-works{display:grid;grid-template-columns:1fr;gap:1.2rem}
+.aw{border-left:2px solid rgba(237,229,212,.08);padding-left:1.5rem;opacity:0;transform:translateX(20px);transition:all .8s cubic-bezier(.16,1,.3,1)}
+.aw.vis{opacity:1;transform:none}
+.aw-t{font-family:'Playfair Display',serif;font-size:.95rem;font-style:italic;color:rgba(237,229,212,.55);margin-bottom:.3rem}
+.aw-a{font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.18em;color:var(--smoke);text-transform:uppercase}
+.aw-d{font-size:.88rem;line-height:1.7;color:rgba(237,229,212,.38);font-weight:300;margin-top:.3rem}
+#p-art{background:rgba(5,4,8,.98);padding:10rem 4rem}
+.ah{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:6rem}
+.art-h{font-family:'Playfair Display',serif;font-size:clamp(2.6rem,5.5vw,6.8rem);font-weight:900;line-height:.88;opacity:0;transform:translateX(-35px);transition:all 1.1s cubic-bezier(.16,1,.3,1)}
+.art-h.vis{opacity:1;transform:none}
+.art-h em{font-style:italic;color:transparent;-webkit-text-stroke:1px var(--bone)}
+.aint{max-width:30ch;font-size:1rem;line-height:1.82;color:rgba(237,229,212,.5);font-style:italic;opacity:0;transition:opacity .9s .25s}
+.aint.vis{opacity:1}
+.alist{border-top:1px solid rgba(237,229,212,.07)}
+.aitem{display:grid;grid-template-columns:70px 1fr 1.1fr 190px;gap:3.5rem;align-items:start;padding:3.2rem 0;border-bottom:1px solid rgba(237,229,212,.06);opacity:0;transform:translateY(20px);transition:all .85s cubic-bezier(.16,1,.3,1);cursor:none}
+.aitem.vis{opacity:1;transform:none}
+.aitem:hover .aname{color:var(--gold)}
+.anum{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.24em;color:var(--smoke);padding-top:.25rem}
+.aname{font-family:'Playfair Display',serif;font-size:clamp(1.5rem,2.4vw,2.5rem);font-weight:700;line-height:1.08;transition:color .3s}
+.aname span{display:block;font-size:.7rem;font-family:'Space Mono',monospace;letter-spacing:.19em;color:var(--smoke);font-weight:400;margin-top:.45rem;text-transform:uppercase}
+.abio{font-size:.95rem;line-height:1.82;color:rgba(237,229,212,.55);font-weight:300}
+.afate{text-align:right}
+.fl{font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.25em;color:var(--smoke);text-transform:uppercase;margin-bottom:.45rem}
+.ft{font-family:'Playfair Display',serif;font-size:.88rem;font-style:italic;color:var(--rust);line-height:1.5}
+#p-bauhaus{background:rgba(8,6,14,.98);padding:10rem 4rem;position:relative;overflow:hidden}
+#p-bauhaus::before{content:'BAUHAUS';position:absolute;font-family:'Playfair Display',serif;font-size:20vw;font-weight:900;color:rgba(74,122,172,.04);top:50%;left:50%;transform:translate(-50%,-50%);white-space:nowrap;pointer-events:none}
+.bh-h{font-family:'Playfair Display',serif;font-size:clamp(2.5rem,5vw,6rem);font-weight:900;line-height:.9;margin-bottom:5rem;position:relative;z-index:1;opacity:0;transform:translateY(40px);transition:all 1.1s cubic-bezier(.16,1,.3,1)}
+.bh-h.vis{opacity:1;transform:none}
+.bh-h em{font-style:italic;color:var(--bluelight)}
+.bauhaus-timeline{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid rgba(74,122,172,.15);position:relative;z-index:1}
+.bh-city{padding:3.5rem;border-right:1px solid rgba(74,122,172,.12);opacity:0;transform:translateY(25px);transition:all .9s cubic-bezier(.16,1,.3,1)}
+.bh-city.vis{opacity:1;transform:none}
+.bh-city:nth-child(2){transition-delay:.12s}
+.bh-city:nth-child(3){border-right:none;transition-delay:.24s}
+.bh-year{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.3em;color:var(--bluelight);text-transform:uppercase;margin-bottom:.6rem}
+.bh-city-name{font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;margin-bottom:1.2rem;color:var(--bone)}
+.bh-city p{font-size:.98rem;line-height:1.85;color:rgba(237,229,212,.55);font-weight:300}
+.bh-masters{margin-top:5rem;position:relative;z-index:1}
+.bh-masters-h{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.35em;color:var(--bluelight);text-transform:uppercase;margin-bottom:2rem;display:flex;align-items:center;gap:1rem}
+.bh-masters-h::before{content:'';display:inline-block;width:24px;height:1px;background:var(--bluelight)}
+.bh-master-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem}
+.bhm{border-top:1px solid rgba(74,122,172,.15);padding-top:1.5rem;opacity:0;transform:translateY(15px);transition:all .75s cubic-bezier(.16,1,.3,1)}
+.bhm.vis{opacity:1;transform:none}
+.bhm-name{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;margin-bottom:.3rem}
+.bhm-role{font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.2em;color:var(--bluelight);text-transform:uppercase;margin-bottom:.6rem}
+.bhm-fate{font-size:.88rem;line-height:1.7;color:rgba(237,229,212,.45);font-weight:300;font-style:italic}
+#p-music{background:rgba(10,8,18,.98);padding:10rem 4rem;position:relative;overflow:hidden}
+#p-music::before{content:'JAZZ';position:absolute;font-family:'Playfair Display',serif;font-size:28vw;font-weight:900;color:rgba(196,164,74,.03);top:50%;left:50%;transform:translate(-50%,-50%);white-space:nowrap;pointer-events:none;letter-spacing:-.04em}
+.music-h{font-family:'Playfair Display',serif;font-size:clamp(2.5rem,5.5vw,6.5rem);font-weight:900;line-height:.88;margin-bottom:5rem;position:relative;z-index:1;opacity:0;transform:translateY(40px);transition:all 1.1s cubic-bezier(.16,1,.3,1)}
+.music-h.vis{opacity:1;transform:none}
+.music-h em{font-style:italic;color:var(--gold)}
+.music-grid{display:grid;grid-template-columns:1fr 1fr;gap:6rem;position:relative;z-index:1}
+.music-body p{font-size:1.08rem;line-height:1.9;color:rgba(237,229,212,.62);font-weight:300;margin-bottom:1.3rem;opacity:0;transition:all .9s cubic-bezier(.16,1,.3,1)}
+.music-body p.vis{opacity:1}
+.music-banned{display:flex;flex-direction:column;gap:1.5rem}
+.mb-item{border-left:1px solid rgba(196,164,74,.18);padding-left:1.8rem;opacity:0;transform:translateX(20px);transition:all .8s cubic-bezier(.16,1,.3,1)}
+.mb-item.vis{opacity:1;transform:none}
+.mb-name{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;margin-bottom:.25rem}
+.mb-type{font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.2em;color:var(--gold);text-transform:uppercase;margin-bottom:.5rem}
+.mb-p{font-size:.9rem;line-height:1.75;color:rgba(237,229,212,.5);font-weight:300}
+#p-lost{background:rgba(8,5,5,.99);padding:10rem 4rem;position:relative;overflow:hidden}
+#p-lost::before{content:'LOST';position:absolute;font-family:'Playfair Display',serif;font-size:26vw;font-weight:900;color:rgba(122,37,16,.05);top:50%;left:50%;transform:translate(-50%,-50%);white-space:nowrap;pointer-events:none;letter-spacing:-.04em}
+.lost-h{font-family:'Playfair Display',serif;font-size:clamp(2.8rem,6vw,7rem);font-weight:900;line-height:.88;margin-bottom:5rem;position:relative;z-index:1;opacity:0;transform:translateY(45px);transition:all 1.1s cubic-bezier(.16,1,.3,1)}
+.lost-h.vis{opacity:1;transform:none}
+.lost-h em{font-style:italic;color:var(--rust)}
+.lost-intro{font-size:1.12rem;line-height:1.9;color:rgba(237,229,212,.58);font-weight:300;max-width:70ch;margin-bottom:5rem;position:relative;z-index:1;opacity:0;transition:opacity 1s .2s}
+.lost-intro.vis{opacity:1}
+.lost-list{position:relative;z-index:1}
+.litem{display:grid;grid-template-columns:60px 1fr 1fr;gap:3rem;padding:2.8rem 0;border-bottom:1px solid rgba(122,37,16,.15);align-items:start;opacity:0;transform:translateY(18px);transition:all .85s cubic-bezier(.16,1,.3,1)}
+.litem.vis{opacity:1;transform:none}
+.litem-n{font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;color:rgba(122,37,16,.3);line-height:1}
+.litem-work{font-family:'Playfair Display',serif;font-size:1.2rem;font-style:italic;margin-bottom:.3rem}
+.litem-artist{font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.2em;color:var(--gold);text-transform:uppercase;margin-bottom:.5rem}
+.litem-p{font-size:.93rem;line-height:1.78;color:rgba(237,229,212,.52);font-weight:300}
+.litem-status{font-family:'Space Mono',monospace;font-size:.5rem;letter-spacing:.2em;color:var(--rust);text-transform:uppercase;margin-top:.5rem}
+#p-exile-map{background:rgba(6,5,12,.98);padding:10rem 4rem}
+.map-h{font-family:'Playfair Display',serif;font-size:clamp(2.5rem,5vw,5.5rem);font-weight:900;line-height:.9;margin-bottom:2rem;opacity:0;transform:translateY(40px);transition:all 1.1s cubic-bezier(.16,1,.3,1)}
+.map-h.vis{opacity:1;transform:none}
+.map-h em{font-style:italic;color:var(--gold)}
+.map-sub{font-size:1.05rem;color:rgba(237,229,212,.5);font-style:italic;margin-bottom:4rem;opacity:0;transition:opacity 1s .2s}
+.map-sub.vis{opacity:1}
+#exile-canvas{width:100%;height:480px;display:block;border:1px solid rgba(196,164,74,.1)}
+.map-legend{display:flex;gap:3rem;margin-top:2rem;flex-wrap:wrap}
+.ml-item{display:flex;align-items:center;gap:.8rem;font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.2em;color:var(--smoke);text-transform:uppercase}
+.ml-dot{width:10px;height:10px;border-radius:50%}
+#p-quote{background:var(--rust);padding:10rem 4rem;position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:70vh}
+#p-quote::before{content:'"ENTARTET"';position:absolute;font-family:'Playfair Display',serif;font-size:22vw;font-weight:900;letter-spacing:-.04em;color:rgba(255,255,255,.04);top:50%;left:50%;transform:translate(-50%,-50%);white-space:nowrap;pointer-events:none}
+.qt{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.8vw,4.2rem);font-weight:400;font-style:italic;line-height:1.3;max-width:28ch;margin:0 auto;text-align:center;opacity:0;transform:scale(.95);transition:all 1.2s cubic-bezier(.16,1,.3,1)}
+.qt.vis{opacity:1;transform:none}
+.qa{text-align:center;margin-top:2.8rem;font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.35em;color:rgba(237,229,212,.45);text-transform:uppercase;opacity:0;transition:opacity 1s .35s}
+.qa.vis{opacity:1}
+#p-blue{background:rgba(13,26,53,.97);padding:10rem 4rem;position:relative;overflow:hidden}
+#p-blue::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 65% 40%,rgba(27,52,104,.7) 0%,transparent 68%)}
+#bcanv{position:absolute;inset:0;width:100%;height:100%;opacity:.18;z-index:0}
+.blue-h{font-family:'Playfair Display',serif;font-size:clamp(3rem,7vw,8.5rem);font-weight:900;line-height:.86;margin-bottom:5rem;position:relative;z-index:1;opacity:0;transform:translateY(55px);transition:all 1.1s cubic-bezier(.16,1,.3,1)}
+.blue-h.vis{opacity:1;transform:none}
+.blue-h em{font-style:italic;color:var(--bluepale)}
+.bgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:3.5rem;position:relative;z-index:1}
+.bcard{padding-top:1.8rem;border-top:1px solid rgba(154,184,212,.18);opacity:0;transform:translateY(30px);transition:all .95s cubic-bezier(.16,1,.3,1)}
+.bcard.vis{opacity:1;transform:none}
+.bcard:nth-child(2){transition-delay:.13s}.bcard:nth-child(3){transition-delay:.26s}.bcard:nth-child(4){transition-delay:.12s}.bcard:nth-child(5){transition-delay:.25s}.bcard:nth-child(6){transition-delay:.38s}
+.bcn{font-family:'Playfair Display',serif;font-size:3.8rem;font-weight:900;color:rgba(74,122,172,.22);line-height:1;margin-bottom:.85rem}
+.bct{font-family:'Playfair Display',serif;font-size:1.4rem;font-style:italic;color:var(--bluepale);margin-bottom:1rem}
+.bcard p{font-size:.98rem;line-height:1.85;color:rgba(154,184,212,.62);font-weight:300}
+#p-aft{background:rgba(6,4,11,.98);padding:10rem 4rem}
+.asplit{display:grid;grid-template-columns:1fr 1.45fr;gap:9rem;align-items:start}
+.anum2{font-family:'Playfair Display',serif;font-size:clamp(6rem,15vw,17rem);font-weight:900;line-height:.78;color:transparent;-webkit-text-stroke:1px rgba(196,164,74,.18);opacity:0;transform:translateX(-28px);transition:all 1.2s cubic-bezier(.16,1,.3,1)}
+.anum2.vis{opacity:1;transform:none}
+.acap{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.28em;color:var(--smoke);text-transform:uppercase;margin-top:1.3rem;opacity:0;transition:opacity 1s .28s}
+.acap.vis{opacity:1}
+.afth{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,3.3vw,3.6rem);font-weight:700;line-height:1.12;margin-bottom:2.8rem;opacity:0;transform:translateY(28px);transition:all 1s cubic-bezier(.16,1,.3,1)}
+.afth.vis{opacity:1;transform:none}
+.aftp{font-size:1.08rem;line-height:1.9;color:rgba(237,229,212,.6);font-weight:300;margin-bottom:1.4rem;opacity:0;transition:all .9s .18s}
+.aftp.vis{opacity:1}
+.tl{margin-top:4.5rem;position:relative}
+.tl::before{content:'';position:absolute;left:0;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,rgba(196,164,74,.35),transparent)}
+.tli{padding:0 0 3.2rem 2.3rem;position:relative;opacity:0;transform:translateX(18px);transition:all .8s cubic-bezier(.16,1,.3,1)}
+.tli.vis{opacity:1;transform:none}
+.tli::before{content:'';position:absolute;left:-3px;top:4px;width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px rgba(196,164,74,.4)}
+.tly{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.27em;color:var(--gold);margin-bottom:.45rem}
+.tlt{font-size:.98rem;line-height:1.75;color:rgba(237,229,212,.58);max-width:50ch}
+#p-restitution{background:rgba(8,6,14,.98);padding:10rem 4rem}
+.rest-h{font-family:'Playfair Display',serif;font-size:clamp(2.5rem,5vw,6rem);font-weight:900;line-height:.9;margin-bottom:5rem;opacity:0;transform:translateY(40px);transition:all 1.1s cubic-bezier(.16,1,.3,1)}
+.rest-h.vis{opacity:1;transform:none}
+.rest-h em{font-style:italic;color:var(--gold)}
+.rest-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid rgba(196,164,74,.1)}
+.rcase{padding:3rem;border-right:1px solid rgba(196,164,74,.08);border-bottom:1px solid rgba(196,164,74,.08);opacity:0;transform:translateY(25px);transition:all .85s cubic-bezier(.16,1,.3,1)}
+.rcase.vis{opacity:1;transform:none}
+.rcase:nth-child(3n){border-right:none}
+.rcase:nth-last-child(-n+3){border-bottom:none}
+.rcase-num{font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:900;color:rgba(196,164,74,.2);line-height:1;margin-bottom:.7rem}
+.rcase-title{font-family:'Playfair Display',serif;font-size:1.1rem;font-style:italic;color:var(--gold);margin-bottom:.8rem}
+.rcase p{font-size:.92rem;line-height:1.82;color:rgba(237,229,212,.52);font-weight:300}
+#p-museums{background:rgba(5,4,10,.99);padding:10rem 4rem}
+.mus-h{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,4.5vw,5rem);font-weight:900;line-height:.9;margin-bottom:1.5rem;opacity:0;transform:translateY(35px);transition:all 1.1s cubic-bezier(.16,1,.3,1)}
+.mus-h.vis{opacity:1;transform:none}
+.mus-h em{font-style:italic;color:var(--gold)}
+.mus-sub{font-size:1.05rem;color:rgba(237,229,212,.5);font-style:italic;margin-bottom:5rem;opacity:0;transition:opacity 1s .2s}
+.mus-sub.vis{opacity:1}
+.mus-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2px}
+.museum{background:rgba(12,10,20,.8);border:1px solid rgba(196,164,74,.07);padding:3rem;opacity:0;transform:translateY(20px);transition:all .85s cubic-bezier(.16,1,.3,1)}
+.museum.vis{opacity:1;transform:none}
+.museum-name{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;margin-bottom:.3rem}
+.museum-city{font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.22em;color:var(--gold);text-transform:uppercase;margin-bottom:1.2rem}
+.museum-works{display:flex;flex-direction:column;gap:.6rem}
+.mw{font-size:.92rem;line-height:1.6;color:rgba(237,229,212,.5);padding-left:1rem;border-left:1px solid rgba(196,164,74,.2)}
+.mw em{font-style:italic;color:rgba(237,229,212,.7)}
+#p-leg{background:#090716;padding:12rem 4rem;text-align:center;position:relative;overflow:hidden}
+#lcanv{position:absolute;inset:0;width:100%;height:100%;opacity:.28;z-index:0}
+.lw{position:relative;z-index:1}
+.lpre{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.4em;color:var(--gold);text-transform:uppercase;margin-bottom:2.5rem;opacity:0;transition:opacity 1s}
+.lpre.vis{opacity:1}
+.lh{font-family:'Playfair Display',serif;font-size:clamp(3rem,7.5vw,10rem);font-weight:900;line-height:.86;margin-bottom:4rem;opacity:0;transform:translateY(45px);transition:all 1.2s cubic-bezier(.16,1,.3,1)}
+.lh.vis{opacity:1;transform:none}
+.lh em{font-style:italic;color:transparent;-webkit-text-stroke:1px var(--bluepale)}
+.lt{font-size:1.18rem;line-height:1.85;font-style:italic;color:rgba(237,229,212,.58);max-width:58ch;margin:0 auto;font-weight:300;opacity:0;transition:opacity 1s .3s}
+.lt.vis{opacity:1}
+.leg-extra{margin-top:6rem;display:grid;grid-template-columns:1fr 1fr 1fr;gap:4rem;text-align:left;opacity:0;transition:opacity 1s .5s}
+.leg-extra.vis{opacity:1}
+.lex-t{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.28em;color:var(--gold);text-transform:uppercase;margin-bottom:.8rem}
+.lex-p{font-size:.95rem;line-height:1.82;color:rgba(237,229,212,.48);font-weight:300}
+footer{background:#030208;padding:3.5rem 4rem;display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(237,229,212,.05)}
+.fcopy{font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:.2em;color:var(--smoke)}
+.fmark{font-family:'Playfair Display',serif;font-size:1rem;font-style:italic;color:rgba(237,229,212,.18)}
+#modal-overlay{position:fixed;inset:0;z-index:8000;background:rgba(5,4,8,.0);backdrop-filter:blur(0px);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:all .45s cubic-bezier(.16,1,.3,1)}
+#modal-overlay.open{opacity:1;pointer-events:all;background:rgba(5,4,8,.88);backdrop-filter:blur(8px)}
+#modal-box{background:#0d0b14;border:1px solid rgba(196,164,74,.18);width:min(900px,90vw);max-height:85vh;overflow-y:auto;display:grid;grid-template-columns:1fr 1fr;transform:scale(.92) translateY(30px);transition:transform .45s cubic-bezier(.16,1,.3,1);scrollbar-width:none}
+#modal-box::-webkit-scrollbar{display:none}
+#modal-overlay.open #modal-box{transform:scale(1) translateY(0)}
+#modal-canvas-wrap{position:relative;min-height:440px}
+#modal-canvas-wrap canvas{width:100%;height:100%;display:block}
+#modal-body{padding:3.5rem;position:relative}
+.modal-kicker{font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.32em;color:var(--gold);text-transform:uppercase;margin-bottom:1.2rem}
+.modal-title{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:700;font-style:italic;line-height:1.1;margin-bottom:.4rem}
+.modal-artist{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.22em;color:var(--gold);text-transform:uppercase;margin-bottom:.3rem}
+.modal-year{font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.18em;color:var(--smoke);margin-bottom:2rem}
+.modal-hr{width:100%;height:1px;background:linear-gradient(to right,rgba(196,164,74,.25),transparent);margin:2rem 0}
+.modal-desc{font-size:1.05rem;line-height:1.9;color:rgba(237,229,212,.68);font-weight:300;margin-bottom:1.2rem}
+.modal-location{font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.22em;color:var(--smoke);text-transform:uppercase;margin-top:1.5rem}
+.modal-fate{font-family:'Playfair Display',serif;font-size:.92rem;font-style:italic;color:var(--rust);margin-top:.5rem;line-height:1.6}
+#modal-close{position:absolute;top:1.5rem;right:1.5rem;background:transparent;border:1px solid rgba(196,164,74,.25);color:var(--gold);font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.2em;padding:.5rem .9rem;cursor:none;text-transform:uppercase;transition:all .3s;z-index:10}
+#modal-close:hover{border-color:var(--gold);background:rgba(196,164,74,.07)}
+@keyframes fu{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+@keyframes su{from{opacity:0;transform:translateY(112%)}to{opacity:1;transform:none}}
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:var(--ink)}
+::-webkit-scrollbar-thumb{background:rgba(196,164,74,.28);border-radius:2px}
+</style>
+</head>
+<body>
+<div id="cdot"></div>
+<div id="cring"></div>
+<div id="pbar"></div>
+<div id="landscape-bg"><canvas id="landscape-canvas"></canvas></div>
+
+<nav>
+  <a href="#" class="nlogo">Entartet</a>
+  <ul class="nlinks">
+    <li><a href="#p-exh">Exhibition</a></li>
+    <li><a href="#p-art">Artists</a></li>
+    <li><a href="#p-bauhaus">Bauhaus</a></li>
+    <li><a href="#p-lost">Lost Works</a></li>
+    <li><a href="#p-blue">German Blue</a></li>
+    <li><a href="#p-aft">Aftermath</a></li>
+    <li><a href="#p-museums">Museums</a></li>
+  </ul>
+</nav>
+
+<div id="spotify-player">
+  <iframe data-testid="embed-iframe" style="border-radius:0" src="https://open.spotify.com/embed/track/45dFVMC4gijvG7lw3yNnD8?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+</div>
+<button id="sp-toggle" class="off" onclick="togglePlayer()">
+  <div class="mbars"><span></span><span></span><span></span><span></span><span></span></div>
+  <span id="sp-label">Taxi Driver OST</span>
+</button>
+
+<div id="modal-overlay" onclick="closeModal(event)">
+  <div id="modal-box">
+    <div id="modal-canvas-wrap"><canvas id="modal-canvas" width="450" height="560"></canvas></div>
+    <div id="modal-body">
+      <button id="modal-close" onclick="closeModal(true)">&#x2715; Close</button>
+      <p class="modal-kicker" id="m-kicker"></p>
+      <h2 class="modal-title" id="m-title"></h2>
+      <p class="modal-artist" id="m-artist"></p>
+      <p class="modal-year" id="m-year"></p>
+      <div class="modal-hr"></div>
+      <p class="modal-desc" id="m-desc1"></p>
+      <p class="modal-desc" id="m-desc2"></p>
+      <p class="modal-location" id="m-loc"></p>
+      <p class="modal-fate" id="m-fate"></p>
+    </div>
+  </div>
+</div>
+
+<section class="panel" id="p-hero">
+  <p class="hero-kicker">M&#252;nchen 1937 &mdash; Berlin 1945</p>
+  <h1 class="hero-title">
+    <span class="htl">THE</span>
+    <span class="htl">ENTARTET</span>
+    <span class="htl">KUNST</span>
+  </h1>
+  <div class="hero-foot">
+    <p>The art Adolf Hitler called degenerate. The artists who defied a regime. The works that survived &mdash; and those that did not.</p>
+    <div class="hero-meta">M&#220;NCHEN &middot; 19 JULY 1937<br>2,000,000 VISITORS<br>650 WORKS DISPLAYED<br>&#8212;<br>16,000 WORKS CONFISCATED</div>
+  </div>
+  <div class="shint"><span>Scroll</span><div class="sline"></div></div>
+</section>
+
+<section class="panel" id="p-intro">
+  <div>
+    <p class="seclab">Prelude</p>
+    <h2 class="intro-h">When art became an act of <em>resistance</em></h2>
+    <div class="ruler"></div>
+    <div class="sg">
+      <div class="stat"><div class="stn">16K</div><div class="stl">Works seized from German museums</div></div>
+      <div class="stat" style="transition-delay:.1s"><div class="stn">112</div><div class="stl">Museums plundered across the Reich</div></div>
+      <div class="stat" style="transition-delay:.2s"><div class="stn">5,000</div><div class="stl">Works burned, March 1939</div></div>
+      <div class="stat" style="transition-delay:.3s"><div class="stn">1,400</div><div class="stl">Artists declared enemies of the state</div></div>
+    </div>
+  </div>
+  <div class="ibody">
+    <p>In the summer of 1937, two exhibitions opened within miles of each other in Munich. One was a gleaming showcase of classical Germanic painting &mdash; heroic, obedient, technically polished. The other was a deliberately humiliating display of what the Nazi regime called <em>Entartete Kunst</em>: Degenerate Art.</p>
+    <p>The regime pulled works from Expressionism, Dada, Surrealism, and New Objectivity &mdash; movements that had made Germany the center of the modern art world. They hung them crookedly, scrawled mocking captions on the walls, and placed anti-Semitic slurs beside portraits painted by Jewish artists. The intent was humiliation. The effect was consecration.</p>
+    <p>What the Nazis intended as a funeral became the last great rally of modern art in Europe. Two million people came to see it &mdash; three times the attendance of the official Great German Art Exhibition next door. Whether they came to mock or to mourn, no one knows. But they came, and the works burned with an authority that no amount of contempt could extinguish.</p>
+    <p>This is the story of the art that terrified a dictator. Of the painters who made it. Of what happened to them. And of the long aftermath &mdash; the German Blue Period, the restitutions, the still-unresolved losses &mdash; that followed when the regime finally collapsed, leaving behind wreckage it took generations to begin to account for.</p>
+  </div>
+</section>
+
+<section class="panel" id="p-hitler">
+  <div class="hit-grid">
+    <div>
+      <p class="seclab">The Dictator as Artist</p>
+      <h2 class="hit-h">The Man Who <em>Failed</em> Art School</h2>
+      <div class="hit-body">
+        <p>In October 1907, an eighteen-year-old from Braunau am Inn presented himself at the Vienna Academy of Fine Arts for the entrance examination. He submitted drawings of buildings and a small selection of figure studies. The academy rejected him. His draughtsmanship was considered adequate, but his figures were lifeless. He lacked the essential gift.</p>
+        <p>He returned the following year and was rejected again &mdash; this time not even invited to the formal examination. The director who reviewed his portfolio suggested he might consider a career in architecture. Architecture, however, required a secondary school diploma he did not have. The door closed. He went to live in a men&rsquo;s hostel in Vienna and began selling postcard-sized watercolors of city scenes to tourists and frame shops.</p>
+        <p>Adolf Hitler painted for nearly a decade, producing several hundred works. They are technically competent and completely empty. Buildings are rendered with photographic accuracy and zero feeling. His few human figures are awkward, flattened, incapable of depicting inner life. He had the hand of a draughtsman and the eye of a bureaucrat. He could copy what he saw. He could not transform it.</p>
+        <p>This failure shaped everything that followed. When Hitler came to power in 1933, his first substantial cultural act was the creation of the Reich Chamber of Culture &mdash; a totalitarian control apparatus for every art form in Germany. When he curated the Degenerate Art exhibition in 1937, he was doing so as a failed artist who had spent thirty years watching the men he envied receive the recognition he was denied. The exhibition was, among other things, an act of revenge.</p>
+        <p>The paintings he called degenerate had what his own work lacked: interiority, risk, the capacity to disturb. Kirchner&rsquo;s figures were distorted because they were felt from the inside. Nolde&rsquo;s colors were violent because he was painting spiritual states, not facades. Beckmann&rsquo;s allegories were obscure because they were grappling with something real. Hitler recognized this quality and despised it. He could not produce it. He could only destroy it.</p>
+      </div>
+    </div>
+    <div>
+      <div class="hit-rejections">
+        <p>The Academy&rsquo;s verdict on Hitler&rsquo;s 1907 portfolio read: &ldquo;Test drawing unsatisfactory. Few heads.&rdquo; The following year he was rejected without interview. The registrar noted: &ldquo;The applicant has talent for architecture but not for the fine arts. He should consider redirecting.&rdquo; He did not redirect.</p>
+      </div>
+      <div class="hit-works" style="margin-top:2.5rem">
+        <div class="hw">
+          <div class="hw-title">Vienna Street Scene, c.1910</div>
+          <div class="hw-desc">Watercolour on paper &middot; Sold for 2 pfennig at Viennese hostels &middot; No human figures</div>
+        </div>
+        <div class="hw" style="transition-delay:.1s">
+          <div class="hw-title">Old Court Theatre, Munich, 1914</div>
+          <div class="hw-desc">Oil on board &middot; Technically proficient &middot; Architecture correct, atmosphere absent</div>
+        </div>
+        <div class="hw" style="transition-delay:.2s">
+          <div class="hw-title">Ruins of the Monastery, 1913</div>
+          <div class="hw-desc">Watercolour &middot; Competent copying &middot; Sold to antiquarian dealer for 5 kronen</div>
+        </div>
+        <div class="hw" style="transition-delay:.3s">
+          <div class="hw-title">The Courtyard of the Old Residency, 1914</div>
+          <div class="hw-desc">Watercolour &middot; His most reproduced work &middot; Correct proportions, no soul</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="p-exh">
+  <div class="exh-head">
+    <p class="seclab">Chapter I</p>
+    <h2 class="exh-h">The <em>Shame</em><br>Exhibition of 1937</h2>
+  </div>
+  <div class="two-col">
+    <div class="tcol">
+      <div class="tcol-t">The Ideological Framework</div>
+      <p>Hitler had a vision of art that was uncompromising and totalitarian. Beauty meant blood and soil &mdash; the muscled peasant, the noble warrior, the serene German mother. Cubist fragmentation was Bolshevist chaos. Expressionist distortion was racial degeneracy. Abstract work was a Jewish conspiracy against German feeling.</p>
+      <p>The concept of <em>Entartung</em> &mdash; degeneracy &mdash; had been circulating in pseudo-scientific discourse since the 1890s, borrowed from the criminologist Max Nordau. The Nazis weaponized it with systematic bureaucratic efficiency. In 1933, the Reich Chamber of Culture was formed. Artists had to join to practice their profession. Jewish artists were barred. Non-Jewish artists deemed &ldquo;culturally Bolshevist&rdquo; were expelled, forbidden to buy canvas, forbidden to paint.</p>
+      <p>Some were visited by the Gestapo. Officials arrived unannounced to inspect studios for evidence of continued work. The smell of fresh turpentine could mean arrest. Emil Nolde, despite being a Nazi Party member himself, had his studio sealed and was banned from all artistic activity. The bureaucracy of prohibition was total and petty, as such bureaucracies always are.</p>
+    </div>
+    <div class="tcol">
+      <div class="tcol-t">The Exhibition Itself</div>
+      <p>Adolf Ziegler, President of the Reich Chamber of Visual Arts, toured Germany in spring 1937 with a commission, pulling paintings and sculptures from museum walls with little documentation and sometimes no receipt. The museums had no recourse. Works by Kirchner, Nolde, Marc, Beckmann, Dix, Klee, Kandinsky, Kokoschka and hundreds more were seized and transported to Munich.</p>
+      <p>The Hofgarten arcades were chosen &mdash; cramped, poorly lit rooms that could barely contain the 650 works crammed into them. This was deliberate. Scrawled commentary was painted directly on the walls: &ldquo;An insult to German womanhood,&rdquo; &ldquo;Paid for by the German taxpayer,&rdquo; &ldquo;Nature as seen by sick minds.&rdquo; Mock psychiatric labels hung beside paintings of genuine spiritual depth.</p>
+      <p>What the Nazis did not anticipate was how powerful the art looked even under ridicule. The works spoke for themselves. Even compressed, even mocked, they burned with an authority that the polished mediocrity of the Great German Art Exhibition next door could not approach. By the time it closed in 1941, over three million people had seen it &mdash; the most-attended exhibition of modern art in history.</p>
+    </div>
+  </div>
+  <div class="ctrack">
+    <div class="pcard" data-id="0" onclick="openModal(0)"><canvas id="c1" width="300" height="400"></canvas><div class="pcard-click">Click to explore</div><div class="pcard-info"><div class="pct">Street, Berlin</div><div class="pca">Ernst Ludwig Kirchner</div><div class="pcy">1913 &middot; Confiscated 1937</div></div></div>
+    <div class="pcard" data-id="1" onclick="openModal(1)"><canvas id="c2" width="300" height="400"></canvas><div class="pcard-click">Click to explore</div><div class="pcard-info"><div class="pct">Large Blue Horses</div><div class="pca">Franz Marc</div><div class="pcy">1911 &middot; Shown as degenerate</div></div></div>
+    <div class="pcard" data-id="2" onclick="openModal(2)"><canvas id="c3" width="300" height="400"></canvas><div class="pcard-click">Click to explore</div><div class="pcard-info"><div class="pct">The Last Supper</div><div class="pca">Emil Nolde</div><div class="pcy">1909 &middot; 1,052 works seized</div></div></div>
+    <div class="pcard" data-id="3" onclick="openModal(3)"><canvas id="c4" width="300" height="400"></canvas><div class="pcard-click">Click to explore</div><div class="pcard-info"><div class="pct">Departure</div><div class="pca">Max Beckmann</div><div class="pcy">1932&ndash;35 &middot; Fled Germany July 19, 1937</div></div></div>
+    <div class="pcard" data-id="4" onclick="openModal(4)"><canvas id="c5" width="300" height="400"></canvas><div class="pcard-click">Click to explore</div><div class="pcard-info"><div class="pct">Metropolis</div><div class="pca">Otto Dix</div><div class="pcy">1928 &middot; 260 works confiscated</div></div></div>
+    <div class="pcard" data-id="5" onclick="openModal(5)"><canvas id="c6" width="300" height="400"></canvas><div class="pcard-click">Click to explore</div><div class="pcard-info"><div class="pct">Composition VIII</div><div class="pca">Wassily Kandinsky</div><div class="pcy">1923 &middot; Emigrated to Paris, 1933</div></div></div>
+    <div class="pcard" data-id="6" onclick="openModal(6)"><canvas id="c7" width="300" height="400"></canvas><div class="pcard-click">Click to explore</div><div class="pcard-info"><div class="pct">Self-Portrait as Soldier</div><div class="pca">Oskar Kokoschka</div><div class="pcy">1937 &middot; Fled to England</div></div></div>
+  </div>
+</section>
+
+<section class="panel" id="p-nazi-art">
+  <div class="naz-h">What Hitler <em>Approved</em>:<br>The Great German Art Exhibition</div>
+  <div class="naz-split">
+    <div class="naz-body">
+      <p>On the same day the Degenerate Art exhibition opened &mdash; July 19, 1937 &mdash; the Great German Art Exhibition opened a short walk away in the newly built Haus der Deutschen Kunst. It was the first major exhibition of Nazi-approved art and Hitler&rsquo;s vision of what German culture could be: heroic, classical, technically proficient, and utterly hollow.</p>
+      <p>The works showed muscular farmers harvesting wheat, serene Aryan mothers with blond children, heroic soldiers and noble athletes. The aesthetic was a regression to 19th-century academic painting &mdash; smoothly rendered surfaces, correct anatomy, idealized subjects. Everything that art had learned about the interior life in the preceding fifty years was deliberately discarded.</p>
+      <p>The artists who dominated the exhibition &mdash; Adolf Ziegler, Arno Breker, Josef Thorak &mdash; were well-compensated, well-housed, and completely forgotten within a decade of the regime&rsquo;s collapse. Their work did not survive the ideology that commissioned it. The art they mocked, the art they hung in a humiliation chamber two streets away, is now in the permanent collections of the greatest museums in the world.</p>
+      <p>This is the fundamental verdict of history on the aesthetics of authoritarianism: it cannot produce work that outlives its political moment. Art made in service of power decays with that power. Art made in defiance of power accumulates meaning as the years pass. The Degenerate Artists, painted, driven into exile, stripped of their livelihoods and in some cases their lives, won. The great machinery of Nazi culture production produced nothing that anyone needs to look at again.</p>
+    </div>
+    <div>
+      <div class="approved-works">
+        <div class="aw"><div class="aw-t">The Four Elements</div><div class="aw-a">Adolf Ziegler &middot; 1937</div><div class="aw-d">Hitler&rsquo;s favourite painting. Technically accomplished nude allegory. Completely inert. Hitler kept it above his fireplace in the Munich apartment.</div></div>
+        <div class="aw" style="transition-delay:.1s"><div class="aw-t">The Torchbearer</div><div class="aw-a">Arno Breker &middot; 1938</div><div class="aw-d">Monumental bronze. Idealized male figure carrying a torch. Breker was the Reich&rsquo;s official sculptor, lavishly funded. His work is now shown only as historical evidence.</div></div>
+        <div class="aw" style="transition-delay:.2s"><div class="aw-t">Sower</div><div class="aw-a">Oskar Martin-Amorbach &middot; 1937</div><div class="aw-d">Blood-and-soil peasant at work. Correctly rendered, empty of feeling. Sold well to Nazi functionaries seeking approved art for their offices.</div></div>
+        <div class="aw" style="transition-delay:.3s"><div class="aw-t">Athletic Youth</div><div class="aw-a">Georg Kolbe &middot; 1936</div><div class="aw-d">Kolbe had been respected before 1933. He accommodated the regime. His Olympic commission made him wealthy. Art historians still argue about how to judge him.</div></div>
+        <div class="aw" style="transition-delay:.4s"><div class="aw-t">Mother and Children</div><div class="aw-a">Sepp Hilz &middot; 1939</div><div class="aw-d">Idealized Bavarian family in traditional dress. Hitler purchased it personally. It represents everything he wanted German women to be. It is a window into a particular kind of horror.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="p-art">
+  <div class="ah">
+    <div>
+      <p class="seclab">Chapter II</p>
+      <h2 class="art-h">The <em>Artists</em><br>&amp; Their Fates</h2>
+    </div>
+    <p class="aint">Each name carries a different story &mdash; exile, silence, survival, resistance, death. These are the painters who made the art that terrified a regime.</p>
+  </div>
+  <div class="alist">
+    <div class="aitem"><div class="anum">01</div><div><div class="aname">Ernst Ludwig Kirchner<span>1880 &ndash; 1938 &middot; Expressionism</span></div></div><div class="abio">Founder of Die Br&uuml;cke, Kirchner invented a new visual language &mdash; angular, electric, sexually charged. His Berlin street scenes captured the feverish modernity of Weimar Germany. Traumatized by WWI service, he spent his final years in a Swiss sanatorium. When the Nazis confiscated 639 of his works, the humiliation destroyed what remained of his stability. On June 15, 1938, he walked into the mountains near Davos and shot himself.</div><div class="afate"><div class="fl">Fate</div><div class="ft">Suicide, June 15, 1938<br>Davos, Switzerland</div></div></div>
+    <div class="aitem" style="transition-delay:.08s"><div class="anum">02</div><div><div class="aname">Max Beckmann<span>1884 &ndash; 1950 &middot; New Objectivity</span></div></div><div class="abio">On the very evening the Degenerate Art exhibition opened &mdash; July 19, 1937 &mdash; Beckmann listened to Hitler&rsquo;s speech on the radio, packed two suitcases, and boarded a train to Amsterdam. He spent ten years in a cramped apartment painting enormous triptychs that encoded the horror of his age in mythological allegory. He never returned to Germany. He died in New York in 1950, on his way to view his own painting at the Metropolitan Museum.</div><div class="afate"><div class="fl">Fate</div><div class="ft">Exile Amsterdam then<br>New York &middot; Died 1950</div></div></div>
+    <div class="aitem" style="transition-delay:.16s"><div class="anum">03</div><div><div class="aname">Emil Nolde<span>1867 &ndash; 1956 &middot; Expressionism</span></div></div><div class="abio">The cruelest irony: Nolde was himself a Nazi Party member who had written to the regime praising its mission. Yet his art was too strange for the state. 1,052 of his works were confiscated. Banned from painting, he secretly produced over a thousand small watercolors hidden in his house &mdash; works he called &ldquo;unpainted pictures&rdquo; because they could never be shown. They are among the most beautiful works of the 20th century, made in defiance by a man who supported his own oppressors.</div><div class="afate"><div class="fl">Fate</div><div class="ft">Banned, painted in secret<br>Survived &middot; Died 1956</div></div></div>
+    <div class="aitem" style="transition-delay:.24s"><div class="anum">04</div><div><div class="aname">Otto Dix<span>1891 &ndash; 1969 &middot; New Objectivity</span></div></div><div class="abio">The most searing visual chronicler of WWI, Dix painted the trenches and mutilated veterans with a clinical ferocity the Nazis found intolerable. 260 of his works were confiscated. He retreated to the German-Swiss border and turned, under surveillance, to landscape painting &mdash; hiding his real satirical portraits in the attic. He survived. After 1945 he resumed figurative work, never explaining what he had seen. He died in 1969, old enough to be celebrated by the country that had tried to erase him.</div><div class="afate"><div class="fl">Fate</div><div class="ft">Inner exile &middot; Survived<br>Hidden work recovered</div></div></div>
+    <div class="aitem" style="transition-delay:.32s"><div class="anum">05</div><div><div class="aname">Paul Klee<span>1879 &ndash; 1940 &middot; Bauhaus</span></div></div><div class="abio">Dismissed from his D&uuml;sseldorf Academy position in 1933, Klee fled to Bern. 102 of his works appeared in the Degenerate Art exhibition. In Swiss exile, he developed scleroderma, a disease that progressively paralyzed his hands. He responded by simplifying his line, producing the enormous childlike angels and stick figures of his late period with a body failing him &mdash; works of devastating grace made at the very end. He died in Muralto, Switzerland, June 29, 1940.</div><div class="afate"><div class="fl">Fate</div><div class="ft">Exile to Bern<br>Died June 29, 1940</div></div></div>
+    <div class="aitem" style="transition-delay:.4s"><div class="anum">06</div><div><div class="aname">Franz Marc<span>1880 &ndash; 1916 &middot; Der Blaue Reiter</span></div></div><div class="abio">Marc did not live to see the Nazis. He was killed at Verdun in 1916 by a shell fragment while sketching a landscape. His art &mdash; in which animals carried a spiritual purity humans had lost &mdash; was exhibited posthumously in the Degenerate Art show. He believed blue was masculine and spiritual, yellow feminine and gentle, red violent and brutal. He was right about the red. His horse paintings, painted in belief, hung in a humiliation chamber sixteen years after his death.</div><div class="afate"><div class="fl">Fate</div><div class="ft">Killed at Verdun<br>March 4, 1916</div></div></div>
+    <div class="aitem" style="transition-delay:.48s"><div class="anum">07</div><div><div class="aname">Wassily Kandinsky<span>1866 &ndash; 1944 &middot; Abstraction</span></div></div><div class="abio">The inventor of pure abstraction fled Germany in 1933, the day the Bauhaus was closed. He settled in Neuilly-sur-Seine near Paris and continued painting until his death in 1944, one year before liberation. His theory that abstract form could carry the spiritual force of music was the very thing the Nazis most feared: art that communicated something real without depicting anything literal, without race, without soil, without triumph. He died in his apartment on December 13, 1944, working to the end.</div><div class="afate"><div class="fl">Fate</div><div class="ft">Exile to Paris<br>Died December 13, 1944</div></div></div>
+    <div class="aitem" style="transition-delay:.56s"><div class="anum">08</div><div><div class="aname">Oskar Kokoschka<span>1886 &ndash; 1980 &middot; Expressionism</span></div></div><div class="abio">Declared &ldquo;Kulturbolschewist Nr. 1&rdquo; &mdash; Cultural Bolshevist Number One &mdash; by the Nazi press. He responded by painting a self-portrait titled &ldquo;Degenerate Artist,&rdquo; wearing the label as a badge. He fled to London in 1938, settled eventually in Switzerland, and lived until 1980 &mdash; to the age of 93 &mdash; outlasting every person who had ever called his work degenerate. He made sure to say so, often and loudly, for the rest of his long life.</div><div class="afate"><div class="fl">Fate</div><div class="ft">Exile to London<br>Lived to 93 &middot; Outlasted them all</div></div></div>
+    <div class="aitem" style="transition-delay:.64s"><div class="anum">09</div><div><div class="aname">George Grosz<span>1893 &ndash; 1959 &middot; New Objectivity</span></div></div><div class="abio">Grosz emigrated to New York in January 1933, the same month Hitler became Chancellor, as though he had been watching the calendar. His savage caricatures of Weimar Germany&rsquo;s decadence and militarism had made him one of the most despised artists in the Nazi imagination. 285 of his works were confiscated. In New York he taught at the Art Students League and tried, with only partial success, to reinvent himself as an American painter. He died in Berlin in 1959, having returned just months before.</div><div class="afate"><div class="fl">Fate</div><div class="ft">Emigrated to New York<br>January 1933</div></div></div>
+    <div class="aitem" style="transition-delay:.72s"><div class="anum">10</div><div><div class="aname">L&aacute;szl&oacute; Moholy-Nagy<span>1895 &ndash; 1946 &middot; Bauhaus</span></div></div><div class="abio">Moholy-Nagy left Germany in 1933 when the Bauhaus closed, first to Amsterdam, then London, then Chicago, where he founded the New Bauhaus in 1937 &mdash; the same year the Degenerate Art show opened. He brought with him the Bauhaus philosophy of integrating fine art, design, and technology, planting it in American soil where it would eventually reshape graphic design, typography, and industrial design across the 20th century. He died of leukemia in Chicago in 1946, too young and too busy to know what he had built.</div><div class="afate"><div class="fl">Fate</div><div class="ft">Founded New Bauhaus Chicago<br>Died 1946 of leukemia</div></div></div>
+  </div>
+</section>
+
+<section class="panel" id="p-bauhaus">
+  <p class="seclab" style="position:relative;z-index:1">Chapter III</p>
+  <h2 class="bh-h">The <em>Bauhaus</em>:<br>What They Closed</h2>
+  <div class="bauhaus-timeline">
+    <div class="bh-city"><div class="bh-year">1919 &ndash; 1925</div><div class="bh-city-name">Weimar</div><p>Walter Gropius founded the Bauhaus in Weimar in 1919 with a radical manifesto: unite all the arts under the roof of architecture. The school brought together the most extraordinary concentration of creative minds in Europe &mdash; Klee, Kandinsky, Itten, Feininger, Schlemmer, Moholy-Nagy. They reimagined typography, furniture, theater, weaving, photography, and graphic design simultaneously. The state government of Thuringia, growing hostile to what they called Bolshevist art instruction, forced the school to leave in 1925.</p></div>
+    <div class="bh-city" style="transition-delay:.12s"><div class="bh-year">1925 &ndash; 1932</div><div class="bh-city-name">Dessau</div><p>In Dessau, Gropius built the school&rsquo;s most famous structure &mdash; the Bauhaus building itself, with its glass curtain wall, its workshop wing, its masters&rsquo; houses in the pine forest outside town. It became the model for every modernist institutional building of the 20th century. Here Breuer designed the cantilever chair, Herbert Bayer systematized typography, Marcel Breuer invented a new way of sitting. The Nazi-allied government of Anhalt forced the school to close in 1932.</p></div>
+    <div class="bh-city" style="transition-delay:.24s"><div class="bh-year">1932 &ndash; 1933</div><div class="bh-city-name">Berlin</div><p>Under Ludwig Mies van der Rohe, the Bauhaus reopened as a private institution in a former telephone factory in Berlin. It lasted eight months. The Gestapo raided the school in April 1933. Mies negotiated with the SS for weeks, trying to find terms under which the school could continue. There were none. The faculty voted to dissolve the institution on July 20, 1933. The masters scattered across Europe and America, carrying the Bauhaus idea with them like seeds in their pockets.</p></div>
+  </div>
+  <div class="bh-masters">
+    <div class="bh-masters-h">Masters of the Bauhaus</div>
+    <div class="bh-master-grid">
+      <div class="bhm"><div class="bhm-name">Walter Gropius</div><div class="bhm-role">Founder &middot; Architecture</div><div class="bhm-fate">Fled to London 1934, Harvard 1937. Transformed American architectural education. Died 1969, Boston.</div></div>
+      <div class="bhm" style="transition-delay:.08s"><div class="bhm-name">Paul Klee</div><div class="bhm-role">Master of Form</div><div class="bhm-fate">Fled to Bern 1933. Developed scleroderma. Painted 1,253 works in his final year despite paralysis. Died 1940.</div></div>
+      <div class="bhm" style="transition-delay:.16s"><div class="bhm-name">Wassily Kandinsky</div><div class="bhm-role">Master of Form</div><div class="bhm-fate">Fled to Paris 1933. Continued painting in Neuilly-sur-Seine. Died 1944, one year before liberation.</div></div>
+      <div class="bhm" style="transition-delay:.24s"><div class="bhm-name">Ludwig Mies van der Rohe</div><div class="bhm-role">Director 1930&ndash;33</div><div class="bhm-fate">Emigrated to Chicago 1938. Directed Illinois Institute of Technology. Designed the Seagram Building. Died 1969.</div></div>
+      <div class="bhm" style="transition-delay:.32s"><div class="bhm-name">Marcel Breuer</div><div class="bhm-role">Furniture Workshop</div><div class="bhm-fate">Fled to London, then Harvard with Gropius. Designed the Whitney Museum of American Art. Died 1981, New York.</div></div>
+      <div class="bhm" style="transition-delay:.4s"><div class="bhm-name">Herbert Bayer</div><div class="bhm-role">Typography Workshop</div><div class="bhm-fate">Emigrated to New York 1938. Worked for Container Corporation of America. His universal typeface is still in use. Died 1985.</div></div>
+      <div class="bhm" style="transition-delay:.48s"><div class="bhm-name">Oskar Schlemmer</div><div class="bhm-role">Theater Workshop</div><div class="bhm-fate">Banned from exhibiting. Worked in a paint factory in Wuppertal. Died 1943 in Baden-Baden, in poverty, never knowing the war&rsquo;s outcome.</div></div>
+      <div class="bhm" style="transition-delay:.56s"><div class="bhm-name">L&aacute;szl&oacute; Moholy-Nagy</div><div class="bhm-role">Metal Workshop</div><div class="bhm-fate">Founded New Bauhaus Chicago 1937. Brought the entire philosophy to America. Died of leukemia in Chicago, 1946, age 51.</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="p-music">
+  <h2 class="music-h">Degenerate <em>Music</em>:<br>What They Silenced</h2>
+  <div class="music-grid">
+    <div class="music-body">
+      <p>In May 1938, a parallel exhibition opened in D&uuml;sseldorf: <em>Entartete Musik</em> &mdash; Degenerate Music. Its poster showed a caricature of a Black jazz musician wearing a Star of David. The exhibition attacked jazz, atonality, and any music that deviated from the diatonic, the triadic, the comfortably German. It was, in miniature, the same ideology that had produced the Degenerate Art exhibition the year before.</p>
+      <p>The Nazis banned jazz in Germany in 1935, classifying it as &ldquo;negro music&rdquo; corrupted by Jewish composers and performers. Jazz clubs were closed. Radio stations were forbidden to broadcast swing. The ban was imperfectly enforced &mdash; Wehrmacht soldiers were known to dance to it in occupied France &mdash; but the intent was total suppression of anything that felt alive, improvisatory, sexually present, racially mixed.</p>
+      <p>Arnold Sch&ouml;nberg&rsquo;s twelve-tone method was classified as Jewish-Bolshevist subversion. Kurt Weill&rsquo;s theater music &mdash; the greatest popular-art fusion of the century &mdash; was banned entirely. Paul Hindemith was expelled from his professorship. Hanns Eisler, who had collaborated with Bertolt Brecht, fled to Hollywood. The effect was the same as in the visual arts: Germany lost its most interesting musical minds in a decade, and the music that replaced them was forgotten within a generation.</p>
+      <p>What the regime could not ban entirely was performed in secret. Cabaret continued underground. Jazz was played in private apartments. The Comedian Harmonists, a wildly popular close-harmony group, were forced to dissolve because three of their six members were Jewish &mdash; but their recordings continued to circulate in defiance, passed hand to hand like contraband.</p>
+    </div>
+    <div class="music-banned">
+      <div class="mb-item"><div class="mb-name">Kurt Weill</div><div class="mb-type">Theater Composer &middot; Exiled 1933</div><div class="mb-p">Composer of The Threepenny Opera with Brecht. Fled to Paris in 1933, then New York. Wrote Lady in the Dark and One Touch of Venus on Broadway. Died in New York, 1950.</div></div>
+      <div class="mb-item" style="transition-delay:.1s"><div class="mb-name">Arnold Sch&ouml;nberg</div><div class="mb-type">Twelve-Tone Music &middot; Exiled 1933</div><div class="mb-p">Inventor of twelve-tone composition. Left Germany in 1933 the day after the Nazis declared twelve-tone music a Jewish conspiracy. Settled in Los Angeles. Died 1951.</div></div>
+      <div class="mb-item" style="transition-delay:.2s"><div class="mb-name">Paul Hindemith</div><div class="mb-type">Composer &middot; Banned 1934</div><div class="mb-p">Germany&rsquo;s most prominent composer. His opera Mathis der Maler was banned before its premiere. He emigrated in 1938. Taught at Yale. Returned to Europe in 1953.</div></div>
+      <div class="mb-item" style="transition-delay:.3s"><div class="mb-name">The Comedian Harmonists</div><div class="mb-type">Vocal Group &middot; Dissolved 1934</div><div class="mb-p">Germany&rsquo;s most beloved vocal group, with three Jewish members. Forced to dissolve in 1934. Their recordings were banned. They are now considered one of the great vocal groups in history.</div></div>
+      <div class="mb-item" style="transition-delay:.4s"><div class="mb-name">Hanns Eisler</div><div class="mb-type">Composer &middot; Fled 1933</div><div class="mb-p">Brecht&rsquo;s principal collaborator. Fled to Paris, then the United States. Testified before HUAC. Composed the national anthem of East Germany. Died in East Berlin, 1962.</div></div>
+      <div class="mb-item" style="transition-delay:.5s"><div class="mb-name">Jazz in Germany</div><div class="mb-type">Banned 1935</div><div class="mb-p">All jazz classified as racially degenerate. Radio stations forbidden to broadcast swing or improvised music. Jazz clubs closed. Nonetheless German soldiers were known to dance to it in occupied Paris.</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="p-lost">
+  <h2 class="lost-h">Works <em>Lost</em> to Fire</h2>
+  <p class="lost-intro">On the morning of March 20, 1939, trucks drove to the yard of the Berlin fire brigade on K&ouml;nigstra&szlig;e. Crates were unloaded. The fire was lit. What exactly burned has never been fully established &mdash; no inventory was kept, no photographs taken, no witnesses permitted. What follows is what we know was destroyed, drawn from confiscation records, dealer accounts, and the silence of museum walls where works once hung.</p>
+  <div class="lost-list">
+    <div class="litem"><div class="litem-n">01</div><div><div class="litem-work">Skaters in Grindelwald</div><div class="litem-artist">Ernst Ludwig Kirchner &middot; c.1917</div><div class="litem-p">One of several large Kirchner oils documented in confiscation records from the Kunsthalle Hamburg but absent from all post-war accounts. The canvas size suggests it could not have been rolled and transported; it was almost certainly burned.</div></div><div class="litem-status">Presumed destroyed, March 1939</div></div>
+    <div class="litem" style="transition-delay:.1s"><div class="litem-n">02</div><div><div class="litem-work">Crucifixion (Large Version)</div><div class="litem-artist">Emil Nolde &middot; 1912</div><div class="litem-p">A large-format religious work documented in confiscation receipts from the Kunsthalle Mannheim. The painting was one of Nolde&rsquo;s most ambitious religious works. No image survives. It appears in no post-war catalogue raisonn&eacute;.</div></div><div class="litem-status">Presumed destroyed, March 1939</div></div>
+    <div class="litem" style="transition-delay:.2s"><div class="litem-n">03</div><div><div class="litem-work">Five Women in the Street</div><div class="litem-artist">Ernst Ludwig Kirchner &middot; 1913</div><div class="litem-p">A large companion piece to Street, Berlin. Confiscated from the Wallraf-Richartz-Museum, Cologne. The known version is in Museum Ludwig; scholars believe a second, larger version was burned.</div></div><div class="litem-status">Possibly destroyed; provenance contested</div></div>
+    <div class="litem" style="transition-delay:.3s"><div class="litem-n">04</div><div><div class="litem-work">The Birth of Venus (Parody)</div><div class="litem-artist">George Grosz &middot; 1923</div><div class="litem-p">Grosz&rsquo;s large satirical canvas documented in confiscation records from the Nationalgalerie Berlin. Listed in the 1937 exhibition catalogue but absent from all post-war locations. Almost certainly among the March 1939 burning.</div></div><div class="litem-status">Presumed destroyed, March 1939</div></div>
+    <div class="litem" style="transition-delay:.4s"><div class="litem-n">05</div><div><div class="litem-work">War Cripples (Study)</div><div class="litem-artist">Otto Dix &middot; 1920</div><div class="litem-p">A study related to Dix&rsquo;s landmark War Cripples, this works was confiscated from a private Berlin collection. The main painting survived in private hands; the study has never been located. Researchers consider it destroyed.</div></div><div class="litem-status">Whereabouts unknown since 1937</div></div>
+    <div class="litem" style="transition-delay:.5s"><div class="litem-n">06</div><div><div class="litem-work">Untitled (Abstract Composition)</div><div class="litem-artist">Paul Klee &middot; 1932</div><div class="litem-p">Klee&rsquo;s late Bauhaus period work, confiscated from the Saarland Museum. All that survives is a brief description in the seizure inventory &mdash; &ldquo;abstract, blue dominant, 90&times;70cm.&rdquo; It cannot be identified with any surviving work and is presumed lost.</div></div><div class="litem-status">Presumed destroyed, March 1939</div></div>
+  </div>
+</section>
+
+<section class="panel" id="p-exile-map">
+  <p class="seclab">The Diaspora</p>
+  <h2 class="map-h">Where They <em>Fled</em></h2>
+  <p class="map-sub">The routes taken by artists fleeing the Reich &mdash; Amsterdam, Paris, London, Prague, New York</p>
+  <canvas id="exile-canvas"></canvas>
+  <div class="map-legend">
+    <div class="ml-item"><div class="ml-dot" style="background:#c4a44a"></div>Origin: Germany</div>
+    <div class="ml-item"><div class="ml-dot" style="background:#9ab8d4"></div>First exile</div>
+    <div class="ml-item"><div class="ml-dot" style="background:#7a9fc0"></div>Final destination</div>
+    <div class="ml-item"><div class="ml-dot" style="background:#7a2510"></div>Died in exile</div>
+    <div class="ml-item"><div class="ml-dot" style="background:#3a6020"></div>Survived &amp; returned</div>
+  </div>
+</section>
+
+<section class="panel" id="p-quote">
+  <div class="qt">&ldquo;They have disfigured our cathedrals and our masterpieces. These works are the last stroke of a brush before the night, painted by those who saw most clearly what was coming.&rdquo;</div>
+  <div class="qa">&mdash; Albert Camus, on degenerate art, 1944</div>
+</section>
+
+<section class="panel" id="p-blue">
+  <canvas id="bcanv"></canvas>
+  <div style="position:relative;z-index:1">
+    <p class="seclab">Chapter IV</p>
+    <h2 class="blue-h">The German<br><em>Blue Period</em></h2>
+    <div class="bgrid">
+      <div class="bcard"><div class="bcn">01</div><div class="bct">The Color of Mourning</div><p>After 1945, German art turned inward. The survivors returned to studios of silence. Across the work of artists processing the Tr&uuml;mmerzeit &mdash; the rubble years &mdash; critics identified an overwhelming turn toward blue: not the jubilant blue of Franz Marc&rsquo;s horses, but a deeper, colder, more searching blue. The color of a country trying to see itself in the dark without flinching from what it would find there.</p></div>
+      <div class="bcard"><div class="bcn">02</div><div class="bct">Baumeister &amp; Reconstruction</div><p>Baumeister survived the Nazi years working as a paint factory technician, producing abstract work in total secrecy. After 1945 he returned to the Stuttgart Academy. His 1947 book <em>The Unknown in Art</em> argued that abstract art was the fundamental language of human inner life &mdash; a direct refutation, point by point, of twelve years of state aesthetics designed to crush exactly this claim.</p></div>
+      <div class="bcard"><div class="bcn">03</div><div class="bct">ZERO &amp; Tabula Rasa</div><p>In 1958, Heinz Mack, Otto Piene, and G&uuml;nther Uecker formed ZERO in D&uuml;sseldorf. The name was deliberate: zero hour, ground zero, the point from which counting begins again. They renounced expressionism as contaminated by trauma. They worked with light, vibration, fire, aluminum grids. Their blue monochromes were proposals for a new kind of seeing &mdash; not forgetting, but beginning from the only honest place left: nothing.</p></div>
+      <div class="bcard"><div class="bcn">04</div><div class="bct">Gerhard Richter&rsquo;s Gray</div><p>Richter fled East Germany in 1961, the year the Wall was built. In West Germany he developed photo-painting &mdash; images dragged into blur with a squeegee &mdash; that became a visual metaphor for Germany&rsquo;s relationship with its own history: present but smeared, visible but unresolvable. His Atlas project is an endless accumulation of images approaching the unspeakable indirectly, in fragments, never arriving at a verdict because no verdict is available.</p></div>
+      <div class="bcard"><div class="bcn">05</div><div class="bct">Joseph Beuys &amp; The Wound</div><p>Beuys mythologized his own wartime trauma into a new kind of art. His performances, his suits of felt, his rooms full of fat wedges addressed the body&rsquo;s vulnerability and the possibility of healing. He called it social sculpture. He said everyone is an artist. He was the strangest and most necessary German artist of the postwar era, turning catastrophe into a kind of medicine, insisting that healing was possible even if he could not entirely perform it himself.</p></div>
+      <div class="bcard"><div class="bcn">06</div><div class="bct">Anselm Kiefer &amp; Memory</div><p>Kiefer is the culmination of postwar German art&rsquo;s long reckoning with its own history. His vast canvases &mdash; charred, sand-encrusted, laced with lead and straw &mdash; depict landscapes of German mythology and German crime simultaneously. He excavated the Wagnerian imagery the Nazis had appropriated and burned it out, returning it as ash. His work proves that art can confront the darkest corners of history without looking away, and that the confrontation is not in vain.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="p-aft">
+  <div class="asplit">
+    <div>
+      <p class="seclab">Chapter V</p>
+      <div class="anum2">5,000</div>
+      <div class="acap">Works incinerated, Berlin fire brigade yard<br>March 20, 1939</div>
+    </div>
+    <div>
+      <h2 class="afth">The Burning and What Survived</h2>
+      <p class="aftp">On March 20, 1939, trucks arrived at the yard of the Berlin fire brigade. Crates were unloaded. The fire was lit. The exact count is disputed &mdash; some records say 4,000, some say 5,000. No inventory was kept. Kirchner&rsquo;s oils, Nolde&rsquo;s watercolors, Dix&rsquo;s portraits, Klee&rsquo;s drawings turned to smoke over a city that would itself be ash within six years. It was a deliberate act of erasure. They believed if you burned the object you destroyed the idea. They were wrong.</p>
+      <p class="aftp">But not everything burned. The regime had also sold works on the international market through dealers in Lucerne, raising foreign currency. On June 30, 1939, a Galerie Fischer auction offered 126 confiscated works to foreign buyers. The Kunstmuseum Basel, the Museum of Modern Art in New York, and private collectors purchased them. The regime&rsquo;s hatred funded the preservation of what it despised. The works entered the world&rsquo;s greatest collections, where they remain today as the permanent rebuke their makers would have wanted.</p>
+      <p class="aftp">Further works were stolen by individual Nazi officials for personal collections. Hermann G&ouml;ring maintained his own cache of &ldquo;degenerate&rdquo; works at Carinhall, trading some on the black market, keeping others for private pleasure. The bureaucracy of theft and the bureaucracy of killing ran in parallel, staffed by the same people, for twelve years.</p>
+      <div class="tl">
+        <div class="tli"><div class="tly">1905</div><div class="tlt">Die Br&uuml;cke founded in Dresden by Kirchner, Heckel, Schmidt-Rottluff. German Expressionism begins.</div></div>
+        <div class="tli" style="transition-delay:.08s"><div class="tly">1907</div><div class="tlt">Hitler applies to Vienna Academy of Fine Arts. Rejected. Applies again in 1908. Rejected again. Moves into men&rsquo;s hostel. Paints postcards.</div></div>
+        <div class="tli" style="transition-delay:.16s"><div class="tly">1919</div><div class="tlt">Walter Gropius founds the Bauhaus in Weimar. &ldquo;The ultimate aim of all creative activity is building.&rdquo;</div></div>
+        <div class="tli" style="transition-delay:.24s"><div class="tly">1933</div><div class="tlt">Hitler becomes Chancellor, January 30. Reich Chamber of Culture established. Bauhaus forcibly closed. Artists begin fleeing Germany.</div></div>
+        <div class="tli" style="transition-delay:.32s"><div class="tly">1937</div><div class="tlt">Degenerate Art exhibition opens Munich, July 19. 650 works displayed as shameful specimens. 2 million visitors. Tours twelve more German cities through 1941.</div></div>
+        <div class="tli" style="transition-delay:.4s"><div class="tly">1938</div><div class="tlt">Ernst Ludwig Kirchner dies by suicide, June 15. Kristallnacht, November 9. Paul Klee refused German citizenship. Beckmann alone in Amsterdam. Kokoschka in London.</div></div>
+        <div class="tli" style="transition-delay:.48s"><div class="tly">1939</div><div class="tlt">Lucerne auction sells 126 masterworks abroad, June 30. March 20: mass burning of unsold works in Berlin. September 1: war begins.</div></div>
+        <div class="tli" style="transition-delay:.56s"><div class="tly">1940</div><div class="tlt">Paul Klee dies in Muralto, Switzerland, June 29. His final year: 1,253 works despite paralyzed hands. The angels were the last things he drew.</div></div>
+        <div class="tli" style="transition-delay:.64s"><div class="tly">1944</div><div class="tlt">Wassily Kandinsky dies in Neuilly-sur-Seine, December 13. One year before liberation. He had painted to the end in his Paris apartment.</div></div>
+        <div class="tli" style="transition-delay:.72s"><div class="tly">1945</div><div class="tlt">Germany&rsquo;s defeat. Allied forces discover looted art in salt mines and castles. Surviving artists emerge from exile and hiding. The Stunde Null begins.</div></div>
+        <div class="tli" style="transition-delay:.8s"><div class="tly">1958&ndash;68</div><div class="tlt">ZERO movement founded D&uuml;sseldorf. Fluxus arrives. Beuys enters the Academy. Postwar German art invents a new language from the wreckage of the old one.</div></div>
+        <div class="tli" style="transition-delay:.88s"><div class="tly">1999</div><div class="tlt">Washington Principles on Nazi-Confiscated Art signed by 44 nations. Framework for identifying and returning works looted during the Nazi era.</div></div>
+        <div class="tli" style="transition-delay:.96s"><div class="tly">2012</div><div class="tlt">Cornelius Gurlitt discovered with 1,406 works in a Munich apartment, including pieces by Picasso, Matisse, Marc, Beckmann, Chagall. The largest post-war cache of looted art ever found.</div></div>
+        <div class="tli" style="transition-delay:1.04s"><div class="tly">Present</div><div class="tlt">Restitution continues. Estimated 600,000+ objects still unaccounted for. The generation of survivors who could identify family property is dying. The window of living memory closes slowly, every year.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="panel" id="p-restitution">
+  <div>
+    <p class="seclab">Chapter VI</p>
+    <h2 class="rest-h">The Long Work of <em>Return</em></h2>
+  </div>
+  <div class="rest-grid">
+    <div class="rcase"><div class="rcase-num">01</div><div class="rcase-title">The Gurlitt Hoard</div><p>In 2012, German customs agents discovered 1,406 works of art in the Munich apartment of Cornelius Gurlitt, son of the Nazi art dealer Hildebrand Gurlitt. The cache included Picassos, Matisses, and major Expressionist works. Gurlitt died in 2014, bequeathing his collection to the Kunstmuseum Bern. Restitution negotiations continue for dozens of individual works.</p></div>
+    <div class="rcase" style="transition-delay:.1s"><div class="rcase-num">02</div><div class="rcase-title">Klimt &amp; Maria Altmann</div><p>Maria Altmann, niece of Adele Bloch-Bauer, pursued the Austrian government for five Klimt paintings her family owned before the Anschluss. After a landmark U.S. Supreme Court ruling in 2004, Austria submitted to arbitration and returned all five paintings in 2006. Adele Bloch-Bauer I sold at Christie&rsquo;s for $135 million &mdash; then a record for any painting at auction.</p></div>
+    <div class="rcase" style="transition-delay:.2s"><div class="rcase-num">03</div><div class="rcase-title">The Welfenschatz</div><p>Heirs of the Jewish art dealers who sold the medieval Guelph Treasure under duress in 1935 filed suit against the Prussian Cultural Heritage Foundation. The German Advisory Commission declined restitution. The heirs took the case to American courts. In 2021 the U.S. Supreme Court allowed the suit to proceed, marking a landmark in extraterritorial restitution law.</p></div>
+    <div class="rcase" style="transition-delay:.3s"><div class="rcase-num">04</div><div class="rcase-title">Schiele at the MoMA</div><p>In 1998, two drawings by Egon Schiele loaned by the Leopold Museum to the Museum of Modern Art in New York were seized by Manhattan District Attorney Robert Morgenthau as stolen property of the Lea Bondi Jaray estate. After years of legal dispute they were returned. The case helped establish international restitution precedent.</p></div>
+    <div class="rcase" style="transition-delay:.4s"><div class="rcase-num">05</div><div class="rcase-title">The Looted Libraries</div><p>Beyond visual art, the Nazis confiscated millions of books from Jewish libraries and private collections. The YIVO Institute alone lost hundreds of thousands of documents. Many are in the collections of national libraries across Europe. The work of identifying, cataloguing, and returning archival material remains decades behind the work done on paintings.</p></div>
+    <div class="rcase" style="transition-delay:.5s"><div class="rcase-num">06</div><div class="rcase-title">What Remains Unresolved</div><p>Estimates suggest 600,000 or more objects looted during the Nazi era have never been accounted for. Many institutions have been slow to conduct provenance research. The generation of survivors who could identify family heirlooms is dying. The window of living memory closes, slowly, every year.</p></div>
+  </div>
+</section>
+
+<section class="panel" id="p-museums">
+  <p class="seclab">Where They Hang Now</p>
+  <h2 class="mus-h">The <em>Degenerate</em> Works<br>in the World&rsquo;s Museums</h2>
+  <p class="mus-sub">The paintings the Nazis mocked now occupy the permanent collections of the greatest museums on earth.</p>
+  <div class="mus-grid">
+    <div class="museum"><div class="museum-name">Museum of Modern Art</div><div class="museum-city">New York, USA</div><div class="museum-works"><div class="mw"><em>Street, Berlin</em> &mdash; Kirchner, 1913. Purchased at the Lucerne auction, 1939.</div><div class="mw"><em>Departure (Triptych)</em> &mdash; Beckmann, 1932&ndash;35. Given by Beckmann himself before his death.</div><div class="mw"><em>Composition VIII</em> &mdash; Kandinsky, 1923. Gift of the Solomon R. Guggenheim Foundation, 1937.</div><div class="mw"><em>Large Blue Horses</em> &mdash; Franz Marc, on extended loan from Walker Art Center.</div></div></div>
+    <div class="museum" style="transition-delay:.1s"><div class="museum-name">Neue Nationalgalerie</div><div class="museum-city">Berlin, Germany</div><div class="museum-works"><div class="mw"><em>Metropolis</em> &mdash; Otto Dix, 1928. The most searing image of Weimar excess, now home in the city that inspired it.</div><div class="mw"><em>Winter Landscape</em> &mdash; Ernst Ludwig Kirchner, 1919. Returned from a Swiss collection.</div><div class="mw"><em>The Sailor</em> &mdash; Erich Heckel, 1913. Confiscated, survived the war in private storage, restituted 1998.</div></div></div>
+    <div class="museum" style="transition-delay:.2s"><div class="museum-name">Kunstmuseum Basel</div><div class="museum-city">Basel, Switzerland</div><div class="museum-works"><div class="mw"><em>Woman at Her Toilette</em> &mdash; Max Beckmann. Purchased at the Lucerne auction, 1939, before the burning.</div><div class="mw"><em>Five Women</em> &mdash; Ernst Ludwig Kirchner, 1913. Among the earliest major Kirchner acquisitions.</div><div class="mw">First museum in the world to systematically collect works from the Lucerne sale, acting in 1939 to preserve what the Nazis were selling off.</div></div></div>
+    <div class="museum" style="transition-delay:.3s"><div class="museum-name">Tate Modern</div><div class="museum-city">London, UK</div><div class="museum-works"><div class="mw"><em>The Bride of the Wind</em> &mdash; Oskar Kokoschka, 1913&ndash;14. One of the defining works of European Expressionism.</div><div class="mw"><em>Danae</em> &mdash; Kokoschka. Acquired following the artist&rsquo;s long residence in England.</div><div class="mw">Tate holds the largest collection of Kokoschka works outside Austria &mdash; a direct consequence of his English exile years.</div></div></div>
+    <div class="museum" style="transition-delay:.4s"><div class="museum-name">Solomon R. Guggenheim</div><div class="museum-city">New York, USA</div><div class="museum-works"><div class="mw"><em>Composition VIII</em> &mdash; Kandinsky, 1923. Hilla von Rebay, a German-American artist, began acquiring Kandinsky for Solomon Guggenheim in 1930, inadvertently preserving works the Nazis would soon begin confiscating.</div><div class="mw">The Guggenheim holds more Kandinsky works than any other museum in the world.</div></div></div>
+    <div class="museum" style="transition-delay:.5s"><div class="museum-name">Pinakothek der Moderne</div><div class="museum-city">Munich, Germany</div><div class="museum-works"><div class="mw">In the same city where the Degenerate Art exhibition opened in 1937, the permanent collection now holds major works by Kirchner, Nolde, Beckmann, Dix, and Klee.</div><div class="mw">The proximity is deliberate. The museum stands as a direct institutional rebuke to the exhibition that opened a kilometre away eighty-seven years ago.</div></div></div>
+  </div>
+</section>
+
+<section class="panel" id="p-leg">
+  <canvas id="lcanv"></canvas>
+  <div class="lw">
+    <p class="lpre">Legacy</p>
+    <h2 class="lh">Art<br><em>Survives</em><br>Everything</h2>
+    <p class="lt">The Nazis burned the art and buried the artists. They built a thousand-year Reich and it lasted twelve. The paintings they mocked hang in the greatest museums on earth. The artists they silenced are studied in every academy. The regime that claimed to speak for civilization is remembered as its low-water mark. The art it called degenerate is what we call modern. History made its verdict. The brush outlasted the boot.</p>
+    <div class="leg-extra">
+      <div>
+        <div class="lex-t">On the permanence of art</div>
+        <p class="lex-p">Every work that survived does so as a rebuke to the certainty of those who wanted it destroyed. Nolde&rsquo;s hidden watercolors. Kirchner&rsquo;s canvases in American museums. Beckmann&rsquo;s triptychs painted in a Dutch apartment in terror. The permanence of these works is not an accident. It is a consequence of their quality &mdash; of the fact that they were made with everything their makers had, in defiance of everything that wanted them silent.</p>
+      </div>
+      <div>
+        <div class="lex-t">What degenerate art tells us</div>
+        <p class="lex-p">The Degenerate Art exhibition was, in its way, the Nazi regime&rsquo;s most accurate self-portrait. In the art they chose to mock &mdash; the distorted faces, the desperate colors, the fractured geometries &mdash; they chose the art that most honestly depicted the world they were about to make. They called it sick. They were showing you a mirror. The artists they condemned understood the century. The regime that condemned them did not survive it.</p>
+      </div>
+      <div>
+        <div class="lex-t">The unfinished work</div>
+        <p class="lex-p">The legal and moral work of restitution continues. Every year, objects are identified, negotiations open, families are found or not found. Behind each case is a family that was destroyed, a collection assembled over generations, a life&rsquo;s worth of aesthetic choices made by people who loved beautiful things and were killed for other reasons. The return of a painting cannot restore what was taken. But it can insist, in material form, that it happened, and that it was wrong.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="fcopy">&copy; 2024 Entartet Kunst Archive &mdash; Historical Record</div>
+  <div class="fmark">The art they feared</div>
+</footer>
+
+<script>
+var ARTWORKS=[
+  {title:'Street, Berlin',artist:'Ernst Ludwig Kirchner',year:'1913',kicker:'Expressionism &middot; Confiscated 1937',
+   desc1:'Kirchner painted this work in 1913, capturing the electric anxiety of Berlin street life. Five figures &mdash; cocooned in dark furs, their faces mask-like, their bodies pressed together yet utterly isolated &mdash; move through a city that vibrates with threat. The palette is acidic, the perspective deliberately wrong. It is one of the definitive images of the modern city as existential condition.',
+   desc2:'639 of Kirchner&rsquo;s works were confiscated by the regime and displayed or destroyed. When he saw the Degenerate Art show catalogue, he wrote that he felt completely numb. He died by suicide the following year. Street, Berlin entered the collection of the Museum of Modern Art in New York, where it hangs today, permanent proof that the men who tried to erase him failed.',
+   loc:'Current location: Museum of Modern Art, New York',fate:'Kirchner died by suicide near Davos, Switzerland, June 15, 1938.',s:'K',cols:['#1a0a05','#3d1208','#8b2010','#c4400a','#e8850a']},
+  {title:'Large Blue Horses',artist:'Franz Marc',year:'1911',kicker:'Der Blaue Reiter &middot; Exhibited posthumously',
+   desc1:'Marc painted this work in 1911, the year he co-founded Der Blaue Reiter with Kandinsky. Four massive horses curve across a landscape in ultramarine, cobalt, and Prussian blue. For Marc, blue was the masculine principle &mdash; spiritual, austere, and severe. The horses are not animals. They are a theology of color and form, an argument that the natural world carries a spiritual intensity that human society has lost.',
+   desc2:'Marc was killed at Verdun on March 4, 1916, struck by a shell fragment while he was sketching. He never knew his work would be displayed by the Nazis as evidence of degeneracy. Large Blue Horses became one of the defining images of German Expressionism &mdash; and one of the most powerful arguments for the idea that color can bear the weight of meaning.',
+   loc:'Current location: Walker Art Center, Minneapolis',fate:'Franz Marc was killed at the Battle of Verdun, March 4, 1916, age 36.',s:'M',cols:['#0a1a3d','#1a3d8b','#2a6ac4','#6aa8d8','#c4a44a']},
+  {title:'The Last Supper',artist:'Emil Nolde',year:'1909',kicker:'Expressionism &middot; 1,052 works confiscated',
+   desc1:'Nolde painted his Last Supper in 1909, abandoning historical representation for raw spiritual experience. Christ and the disciples are rendered with mask-like faces and violent color &mdash; as if painted from the inside of a visionary state. It is one of the most powerful religious paintings of the modern era, and one of the most theologically serious paintings of the Expressionist movement.',
+   desc2:'The cruelest irony: Nolde was himself a Nazi Party member who had written to the regime praising its mission. Yet his work was too strange, too ecstatic, too free. 1,052 of his works were confiscated. Banned from painting, he secretly produced over a thousand small watercolors hidden in his house &mdash; works of extraordinary beauty, produced in defiance by a man who supported his own destruction.',
+   loc:'Current location: Stiftung Seeb&uuml;ll Ada und Emil Nolde, Germany',fate:'Nolde survived the war. He died in 1956, long enough to be celebrated again.',s:'N',cols:['#1a0508','#5a0e14','#9e1a1e','#c44a1a','#e8c080']},
+  {title:'Departure (Triptych)',artist:'Max Beckmann',year:'1932&ndash;1935',kicker:'New Objectivity &middot; Fled Germany July 19, 1937',
+   desc1:'Beckmann painted this three-panel triptych as Hitler rose to power, encoding his horror in mythological disguise. The side panels depict captivity, torture, blindfolded figures and bound bodies &mdash; the present Germany. The central panel shows a calm departure by sea, a king, a child, a masked figure &mdash; the possible future. It is simultaneously an escape and a mystery that refuses to resolve itself.',
+   desc2:'On July 19, 1937 &mdash; the very evening the Degenerate Art exhibition opened with his work on its walls &mdash; Beckmann listened to Hitler&rsquo;s speech on the radio and left Germany permanently. He never returned. He died in New York in 1950, on his way to view his own painting at the Metropolitan Museum of Art. He had a heart attack on Central Park West.',
+   loc:'Current location: Museum of Modern Art, New York',fate:'Beckmann died in New York, December 27, 1950, never returning to Germany.',s:'B',cols:['#050a1a','#0a1a3d','#1a3068','#2a509e','#8ab0d8']},
+  {title:'Metropolis',artist:'Otto Dix',year:'1928',kicker:'New Objectivity &middot; 260 works confiscated',
+   desc1:'This triptych &mdash; modeled explicitly on the altarpiece form Dix admired in medieval German painting &mdash; depicts Weimar Berlin with merciless precision. In the side panels: maimed veterans begging in gutters while prostitutes in furs pass by. In the center: a jazz band plays as the wealthy dance. Dix had served four years in the trenches. He knew exactly what those veterans had purchased with their bodies.',
+   desc2:'260 of Dix&rsquo;s works were confiscated. He retreated to the German-Swiss border and spent the war years painting benign landscapes for sale, hiding his real work in the attic. After 1945 he resumed figurative painting, carrying what he had witnessed in his eyes like shrapnel. He lived until 1969, old enough to see himself celebrated by the country that had tried to erase him.',
+   loc:'Current location: Kunstmuseum Stuttgart',fate:'Dix survived the war under surveillance. Died 1969.',s:'D',cols:['#0d0d0d','#2a1a0a','#5a3010','#9e6020','#c8a848']},
+  {title:'Composition VIII',artist:'Wassily Kandinsky',year:'1923',kicker:'Abstraction &middot; Emigrated 1933',
+   desc1:'Painted at the Bauhaus in 1923, this is a fully realized statement of Kandinsky&rsquo;s theory that visual art could carry the spiritual force of music. Circles, lines, angles, and geometric forms move across the canvas in what he called a composition &mdash; a word chosen deliberately for its musical resonance. Color and form carry meaning without depicting anything literal. This was the very thing the Nazis most feared.',
+   desc2:'Kandinsky emigrated to Paris in 1933, the day the Bauhaus was closed. He died in Neuilly-sur-Seine in 1944, one year before liberation, in the apartment where he had continued to paint until the end. He was 77. He had never stopped. The Guggenheim Museum in New York holds the largest collection of Kandinsky works in the world &mdash; many acquired in the years when he was being driven out of Germany.',
+   loc:'Current location: Solomon R. Guggenheim Museum, New York',fate:'Kandinsky died in Neuilly-sur-Seine, December 13, 1944.',s:'Ka',cols:['#08050d','#1a0a2d','#3a1a5a','#7040a8','#c490d8']},
+  {title:'Self-Portrait as Degenerate Artist',artist:'Oskar Kokoschka',year:'1937',kicker:'Expressionism &middot; Kulturbolschewist Nr. 1',
+   desc1:'Kokoschka painted this self-portrait in direct response to being labeled &ldquo;Kulturbolschewist Nr. 1&rdquo; by the Nazi press. The face is a witness&rsquo;s face: alert, unsurprised, absorbing what it sees without flinching. He titled it &ldquo;Degenerate Artist,&rdquo; wearing the label as a badge of honor. It is one of the great acts of defiance in the history of self-portraiture.',
+   desc2:'Kokoschka fled to London in 1938 and eventually settled in Switzerland. He lived until 1980 &mdash; to the age of 93 &mdash; outlasting every person who had ever called his work degenerate. He made sure to say so often and loudly for the remaining forty-three years of his life. He gave interviews. He wrote letters. He was very specific about how wrong they had been.',
+   loc:'Current location: Private collection',fate:'Kokoschka lived to 93. He outlasted all of them.',s:'Ko',cols:['#080508','#1a1020','#3a2040','#7a4880','#b88ab0']}
+];
+
+var playerOpen=false;
+function togglePlayer(){
+  var p=document.getElementById('spotify-player'),t=document.getElementById('sp-toggle'),l=document.getElementById('sp-label');
+  playerOpen=!playerOpen;
+  p.classList.toggle('open',playerOpen);
+  t.classList.toggle('off',!playerOpen);
+  l.textContent=playerOpen?'Hide Player':'Taxi Driver OST';
+}
+
+function renderPainting(canvas,cols,s){
+  var ctx=canvas.getContext('2d'),W=canvas.width,H=canvas.height;
+  var bg=ctx.createLinearGradient(0,0,W,H);
+  cols.forEach(function(c,i){bg.addColorStop(i/(cols.length-1),c);});
+  ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
+  function brush(x,y,w,h,col,al){ctx.save();ctx.globalAlpha=al;ctx.fillStyle=col;ctx.beginPath();ctx.ellipse(x,y,w,h,Math.random()*Math.PI,0,Math.PI*2);ctx.fill();ctx.restore();}
+  if(s==='K'){
+    for(var i=0;i<35;i++){var x=Math.random()*W,y=Math.random()*H;ctx.save();ctx.globalAlpha=.35+Math.random()*.45;ctx.strokeStyle=cols[Math.floor(Math.random()*cols.length)];ctx.lineWidth=4+Math.random()*10;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+(Math.random()-.5)*100,y+(Math.random()-.5)*100);ctx.stroke();ctx.restore();}
+    for(var i=0;i<10;i++){ctx.save();ctx.globalAlpha=.55;ctx.strokeStyle='#e8850a';ctx.lineWidth=2.5;ctx.beginPath();var fx=W*.2+Math.random()*W*.6,fy=H*.1+Math.random()*H*.7;for(var j=0;j<10;j++){ctx.lineTo(fx+(Math.random()-.5)*35,fy+j*15);}ctx.stroke();ctx.restore();}
+  }else if(s==='M'){
+    for(var i=0;i<8;i++){var g2=ctx.createRadialGradient(W*.2+i*W*.09,H*.45,0,W*.2+i*W*.09,H*.45,W*.22);g2.addColorStop(0,cols[i%cols.length]);g2.addColorStop(1,'transparent');ctx.save();ctx.globalAlpha=.65;ctx.fillStyle=g2;ctx.beginPath();ctx.ellipse(W*.18+i*W*.1,H*.44+Math.sin(i)*H*.16,W*.14,H*.25,Math.PI/4,0,Math.PI*2);ctx.fill();ctx.restore();}
+  }else if(s==='N'){
+    for(var i=0;i<45;i++){brush(Math.random()*W,Math.random()*H,20+Math.random()*70,15+Math.random()*50,cols[Math.floor(Math.random()*cols.length)],.4+Math.random()*.55);}
+    ctx.save();ctx.globalAlpha=.65;var g3=ctx.createRadialGradient(W*.5,H*.28,0,W*.5,H*.28,W*.45);g3.addColorStop(0,'rgba(232,197,128,.9)');g3.addColorStop(1,'transparent');ctx.fillStyle=g3;ctx.fillRect(0,0,W,H);ctx.restore();
+  }else if(s==='B'){
+    for(var i=0;i<18;i++){ctx.save();ctx.globalAlpha=.4+Math.random()*.45;ctx.strokeStyle=cols[Math.floor(Math.random()*cols.length)];ctx.lineWidth=5+Math.random()*9;ctx.beginPath();var x1=Math.random()*W,y1=Math.random()*H;ctx.moveTo(x1,y1);ctx.bezierCurveTo(x1+(Math.random()-.5)*W*.45,y1+(Math.random()-.5)*H*.45,x1+(Math.random()-.5)*W*.45,y1+(Math.random()-.5)*H*.45,x1+(Math.random()-.5)*W*.55,y1+(Math.random()-.5)*H*.55);ctx.stroke();ctx.restore();}
+  }else if(s==='D'){
+    for(var i=0;i<30;i++){ctx.save();ctx.globalAlpha=.3+Math.random()*.5;ctx.fillStyle=cols[Math.floor(Math.random()*cols.length)];ctx.fillRect(Math.random()*W,Math.random()*H,6+Math.random()*50,6+Math.random()*50);ctx.restore();}
+    ctx.save();ctx.globalAlpha=.5;var g4=ctx.createLinearGradient(0,0,W,H);g4.addColorStop(0,'rgba(200,168,72,.35)');g4.addColorStop(1,'transparent');ctx.fillStyle=g4;ctx.fillRect(0,0,W,H);ctx.restore();
+  }else if(s==='Ka'){
+    [[W*.5,H*.3,W*.2],[W*.22,H*.62,W*.14],[W*.78,H*.55,W*.12],[W*.38,H*.78,W*.1]].forEach(function(ci,i){var gr=ctx.createRadialGradient(ci[0],ci[1],0,ci[0],ci[1],ci[2]);gr.addColorStop(0,cols[i%cols.length]);gr.addColorStop(1,'transparent');ctx.save();ctx.globalAlpha=.7;ctx.fillStyle=gr;ctx.fillRect(0,0,W,H);ctx.restore();});
+    for(var i=0;i<9;i++){ctx.save();ctx.globalAlpha=.65;ctx.strokeStyle=cols[i%cols.length];ctx.lineWidth=2.5;ctx.beginPath();ctx.arc(W*.25+Math.random()*W*.5,H*.18+Math.random()*H*.65,12+Math.random()*55,0,Math.PI*2);ctx.stroke();ctx.restore();}
+  }else{
+    for(var i=0;i<25;i++){brush(Math.random()*W,Math.random()*H,18+Math.random()*60,12+Math.random()*45,cols[Math.floor(Math.random()*cols.length)],.38+Math.random()*.55);}
+  }
+  for(var i=0;i<300;i++){ctx.save();ctx.globalAlpha=Math.random()*.07;ctx.fillStyle=Math.random()>.5?'#fff':'#000';ctx.fillRect(Math.random()*W,Math.random()*H,1,1);ctx.restore();}
+}
+
+function openModal(idx){
+  var d=ARTWORKS[idx];
+  document.getElementById('m-kicker').innerHTML=d.kicker;
+  document.getElementById('m-title').textContent=d.title;
+  document.getElementById('m-artist').textContent=d.artist;
+  document.getElementById('m-year').textContent=d.year;
+  document.getElementById('m-desc1').innerHTML=d.desc1;
+  document.getElementById('m-desc2').innerHTML=d.desc2;
+  document.getElementById('m-loc').textContent=d.loc;
+  document.getElementById('m-fate').textContent=d.fate;
+  var mc=document.getElementById('modal-canvas');
+  mc.width=450;mc.height=560;
+  renderPainting(mc,d.cols,d.s);
+  document.getElementById('modal-overlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeModal(e){
+  if(e===true||!e||(e&&e.target===document.getElementById('modal-overlay'))){
+    document.getElementById('modal-overlay').classList.remove('open');
+    document.body.style.overflow='';
+  }
+}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal(true);});
+
+(function initCards(){
+  ARTWORKS.forEach(function(d,idx){
+    var c=document.getElementById('c'+(idx+1));
+    if(!c)return;
+    c.width=300;c.height=400;
+    renderPainting(c,d.cols,d.s);
+  });
+})();
+
+(function cursor(){
+  var dot=document.getElementById('cdot'),ring=document.getElementById('cring');
+  var mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';});
+  (function a(){rx+=(mx-rx)*.14;ry+=(my-ry)*.14;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(a);})();
+  document.querySelectorAll('a,button,.pcard,.aitem,.rcase,.museum,.bh-city,.mb-item,.aw,.hw,.litem').forEach(function(el){
+    el.addEventListener('mouseenter',function(){document.body.classList.add('hov');});
+    el.addEventListener('mouseleave',function(){document.body.classList.remove('hov');});
+  });
+})();
+
+window.addEventListener('scroll',function(){
+  var s=window.scrollY,h=document.body.scrollHeight-window.innerHeight;
+  document.getElementById('pbar').style.width=(s/h*100)+'%';
+});
+
+var obs=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){if(e.isIntersecting)e.target.classList.add('vis');});
+},{threshold:.07});
+document.querySelectorAll('.intro-h,.ruler,.stat,.ibody p,.exh-h,.art-h,.aint,.aitem,.qt,.qa,.blue-h,.bcard,.anum2,.acap,.afth,.aftp,.tli,.lpre,.lh,.lt,.leg-extra,.rest-h,.rcase,.museum,.mus-h,.mus-sub,.bh-h,.bh-city,.bhm,.hit-h,.hit-body p,.hw,.naz-h,.naz-body p,.aw,.music-h,.music-body p,.mb-item,.lost-h,.lost-intro,.litem,.map-h,.map-sub,.rest-h').forEach(function(el){obs.observe(el);});
+
+(function landscape(){
+  var c=document.getElementById('landscape-canvas'),ctx=c.getContext('2d'),W,H,t=0;
+  function resize(){W=c.width=window.innerWidth;H=c.height=window.innerHeight;}
+  function noise(x,li,tt){
+    return Math.sin(x*0.008+li*1.3+tt*0.3)*0.5+Math.sin(x*0.015-li*0.7+tt*0.5)*0.3+Math.sin(x*0.04+li*0.5-tt*0.7)*0.2;
+  }
+  function mountains(alpha){
+    var layers=[
+      {y:.82,a:.28,f:.0018,c:'#0e0c18',sp:.0008},
+      {y:.72,a:.22,f:.0025,c:'#1a1628',sp:.0012},
+      {y:.62,a:.16,f:.0035,c:'#261f38',sp:.0018},
+      {y:.54,a:.12,f:.005,c:'#342a48',sp:.0025},
+    ];
+    layers.forEach(function(l,li){
+      ctx.save();ctx.globalAlpha=alpha;ctx.beginPath();ctx.moveTo(0,H);
+      for(var x=0;x<=W;x+=3){
+        var n=noise(x,li,t);
+        var ridge=Math.sin(x*l.f+t*l.sp+li*1.5)*l.a+Math.sin(x*l.f*3.2+t*l.sp*2)*l.a*.18+Math.sin(x*l.f*7+t*l.sp*3)*l.a*.08;
+        ctx.lineTo(x,H*(l.y-ridge+n*.04));
+      }
+      ctx.lineTo(W,H);ctx.closePath();ctx.fillStyle=l.c;ctx.fill();ctx.restore();
+    });
+    ctx.save();ctx.globalAlpha=alpha*.22;
+    for(var x=0;x<=W;x+=6){
+      var ridge=Math.sin(x*.005+t*.0025+3)*.12;
+      var y=H*(.54-ridge-.12)+noise(x,4,t)*8;
+      if(y<H*.5){ctx.fillStyle='rgba(230,220,255,.6)';ctx.fillRect(x,y,2,Math.min(4,H*.5-y));}
+    }
+    ctx.restore();
+    var mx2=W*.78,my2=H*.18;
+    ctx.save();ctx.globalAlpha=alpha*.9;
+    var mg=ctx.createRadialGradient(mx2,my2,0,mx2,my2,60);
+    mg.addColorStop(0,'rgba(255,248,220,.95)');mg.addColorStop(.3,'rgba(240,228,200,.6)');mg.addColorStop(.7,'rgba(200,180,140,.2)');mg.addColorStop(1,'transparent');
+    ctx.fillStyle=mg;ctx.fillRect(mx2-60,my2-60,120,120);
+    ctx.beginPath();ctx.arc(mx2,my2,22,0,Math.PI*2);ctx.fillStyle='rgba(255,250,230,.92)';ctx.fill();ctx.restore();
+    var ss=42;ctx.save();ctx.globalAlpha=alpha*.7;
+    for(var si=0;si<120;si++){
+      ss=(ss*1664525+1013904223)&0xffffffff;var sx=((ss>>>8)&0xffff)/65535*W;
+      ss=(ss*1664525+1013904223)&0xffffffff;var sy=((ss>>>8)&0xffff)/65535*(H*.55);
+      ss=(ss*1664525+1013904223)&0xffffffff;var sr=((ss>>>8)&0xffff)/65535;
+      var smag=Math.sin(t*1.5+si)*.3+.7;
+      ctx.beginPath();ctx.arc(sx,sy,.5+sr*1.2,0,Math.PI*2);ctx.fillStyle='rgba(255,252,240,'+((.4+sr*.55)*smag*alpha)+')';ctx.fill();
+    }
+    ctx.restore();
+  }
+  function ocean(alpha){
+    var horizon=H*.6;
+    var sky=ctx.createLinearGradient(0,0,0,horizon);
+    sky.addColorStop(0,'rgba(5,8,22,'+alpha+')');sky.addColorStop(.5,'rgba(8,18,50,'+(alpha*.9)+')');sky.addColorStop(1,'rgba(12,30,80,'+(alpha*.5)+')');
+    ctx.save();ctx.fillStyle=sky;ctx.fillRect(0,0,W,horizon);ctx.restore();
+    var wg=ctx.createLinearGradient(0,horizon,0,H);
+    wg.addColorStop(0,'rgba(12,30,80,'+alpha+')');wg.addColorStop(.3,'rgba(8,20,55,'+alpha+')');wg.addColorStop(1,'rgba(4,10,28,'+alpha+')');
+    ctx.save();ctx.fillStyle=wg;ctx.fillRect(0,horizon,W,H-horizon);ctx.restore();
+    for(var wi=0;wi<6;wi++){
+      var wf=.004+wi*.002,wamp=8+wi*5,wspd=.6+wi*.3,wy=horizon+wi*(H-horizon)/6*.9,wop=.12+wi*.07;
+      ctx.save();ctx.globalAlpha=alpha*wop;ctx.beginPath();ctx.moveTo(0,wy);
+      for(var x=0;x<=W;x+=4){
+        ctx.lineTo(x,wy+Math.sin(x*wf+t*wspd)*wamp+Math.sin(x*wf*2.3-t*wspd*.7)*wamp*.3);
+      }
+      ctx.lineTo(W,H);ctx.lineTo(0,H);ctx.closePath();ctx.fillStyle='hsl(210,'+(60-wi*6)+'%,'+(50+wi*8)+'%)';ctx.fill();ctx.restore();
+      ctx.save();ctx.globalAlpha=alpha*(.06+wi*.04);ctx.beginPath();
+      for(var x=0;x<=W;x+=4){var foam=Math.sin(x*wf+t*wspd)*wamp+Math.sin(x*wf*2.3-t*wspd*.7)*wamp*.3;if(x===0)ctx.moveTo(x,wy+foam);else ctx.lineTo(x,wy+foam);}
+      ctx.strokeStyle='rgba(200,220,255,.6)';ctx.lineWidth=1.2;ctx.stroke();ctx.restore();
+    }
+    var ox=W*.62,oy=H*.18;
+    ctx.save();ctx.globalAlpha=alpha;
+    var omg=ctx.createRadialGradient(ox,oy,0,ox,oy,55);
+    omg.addColorStop(0,'rgba(255,248,210,.95)');omg.addColorStop(.4,'rgba(240,228,190,.5)');omg.addColorStop(1,'transparent');
+    ctx.fillStyle=omg;ctx.fillRect(ox-55,oy-55,110,110);
+    ctx.beginPath();ctx.arc(ox,oy,20,0,Math.PI*2);ctx.fillStyle='rgba(255,250,225,.9)';ctx.fill();
+    var ref=ctx.createLinearGradient(ox,horizon,ox,H);
+    ref.addColorStop(0,'rgba(255,248,200,.22)');ref.addColorStop(1,'transparent');
+    ctx.fillStyle=ref;ctx.fillRect(ox-22,horizon,44,H-horizon);ctx.restore();
+    var ss2=137;ctx.save();ctx.globalAlpha=alpha*.5;
+    for(var si=0;si<80;si++){
+      ss2=(ss2*1664525+1013904223)&0xffffffff;var sx=((ss2>>>8)&0xffff)/65535*W;
+      ss2=(ss2*1664525+1013904223)&0xffffffff;var sy=((ss2>>>8)&0xffff)/65535*(horizon*.85);
+      ss2=(ss2*1664525+1013904223)&0xffffffff;var sr=((ss2>>>8)&0xffff)/65535;
+      ctx.beginPath();ctx.arc(sx,sy,.5+sr*.9,0,Math.PI*2);ctx.fillStyle='rgba(200,215,255,'+((.3+sr*.5))+')';ctx.fill();
+    }
+    ctx.restore();
+  }
+  function draw(){
+    t+=.006;
+    ctx.clearRect(0,0,W,H);
+    var heroH=window.innerHeight*1.5;
+    var prog=Math.min(1,window.scrollY/heroH);
+    var ma=Math.max(0,1-prog*1.6);
+    var oa=Math.min(1,prog*1.6);
+    var bg=ctx.createLinearGradient(0,0,0,H);
+    bg.addColorStop(0,'#050408');bg.addColorStop(1,'#07050d');
+    ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
+    if(ma>.01)mountains(ma);
+    if(oa>.01)ocean(oa);
+    requestAnimationFrame(draw);
+  }
+  resize();draw();window.addEventListener('resize',resize);
+})();
+
+(function exileMap(){
+  var c=document.getElementById('exile-canvas');if(!c)return;
+  var ctx=c.getContext('2d'),W,H,t=0;
+  var cities={
+    berlin:{x:.52,y:.28,label:'Berlin',type:'origin'},
+    munich:{x:.50,y:.36,label:'Munich',type:'origin'},
+    vienna:{x:.53,y:.40,label:'Vienna',type:'origin'},
+    amsterdam:{x:.43,y:.26,label:'Amsterdam',type:'exile1'},
+    paris:{x:.41,y:.38,label:'Paris',type:'final'},
+    london:{x:.38,y:.28,label:'London',type:'final'},
+    prague:{x:.54,y:.33,label:'Prague',type:'exile1'},
+    newyork:{x:.12,y:.35,label:'New York',type:'final'},
+    chicago:{x:.14,y:.28,label:'Chicago',type:'final'},
+    bern:{x:.44,y:.40,label:'Bern',type:'final'},
+    davos:{x:.46,y:.41,label:'Davos',type:'died'},
+    zurich:{x:.45,y:.40,label:'Z\u00fcrich',type:'exile1'},
+    losangeles:{x:.10,y:.42,label:'Los Angeles',type:'final'},
+  };
+  var routes=[
+    {from:'berlin',to:'amsterdam',who:'Beckmann'},
+    {from:'amsterdam',to:'newyork',who:'Beckmann'},
+    {from:'berlin',to:'paris',who:'Kandinsky'},
+    {from:'munich',to:'bern',who:'Klee'},
+    {from:'bern',to:'davos',who:'Kirchner'},
+    {from:'vienna',to:'london',who:'Kokoschka'},
+    {from:'berlin',to:'newyork',who:'Grosz'},
+    {from:'berlin',to:'chicago',who:'Moholy-Nagy'},
+    {from:'berlin',to:'paris',who:'Gropius (via London)'},
+    {from:'vienna',to:'losangeles',who:'Sch\u00f6nberg'},
+  ];
+  var typeColors={origin:'#c4a44a',exile1:'#9ab8d4',final:'#7a9fc0',died:'#7a2510'};
+  function resize(){
+    W=c.width=c.offsetWidth;H=c.height=480;
+    c.height=H;
+  }
+  function lerp(a,b,t){return a+(b-a)*t;}
+  function draw(){
+    t+=.004;
+    ctx.clearRect(0,0,W,H);
+    var bg=ctx.createLinearGradient(0,0,W,H);
+    bg.addColorStop(0,'#06050e');bg.addColorStop(1,'#0a0818');
+    ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
+    for(var lat=20;lat<=70;lat+=10){
+      var y=H-((lat-20)/60)*H*.85-H*.08;
+      ctx.save();ctx.globalAlpha=.08;ctx.strokeStyle='#9ab8d4';ctx.lineWidth=.5;
+      ctx.setLineDash([2,6]);ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();ctx.restore();
+    }
+    for(var lng=-90;lng<=40;lng+=20){
+      var x=((lng+90)/130)*W;
+      ctx.save();ctx.globalAlpha=.08;ctx.strokeStyle='#9ab8d4';ctx.lineWidth=.5;
+      ctx.setLineDash([2,6]);ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();ctx.restore();
+    }
+    ctx.setLineDash([]);
+    routes.forEach(function(r){
+      var from=cities[r.from],to=cities[r.to];
+      if(!from||!to)return;
+      var fx=from.x*W,fy=from.y*H,tx=to.x*W,ty=to.y*H;
+      var cx=(fx+tx)/2,cy=Math.min(fy,ty)-60-Math.abs(tx-fx)*.15;
+      var progress=(Math.sin(t*.6+routes.indexOf(r))*0.5+0.5);
+      ctx.save();ctx.globalAlpha=.18;ctx.strokeStyle='#c4a44a';ctx.lineWidth=1;
+      ctx.beginPath();ctx.moveTo(fx,fy);ctx.quadraticCurveTo(cx,cy,tx,ty);ctx.stroke();
+      var px=lerp(lerp(fx,cx,progress),lerp(cx,tx,progress),progress);
+      var py=lerp(lerp(fy,cy,progress),lerp(cy,ty,progress),progress);
+      ctx.globalAlpha=.7;ctx.fillStyle='#c4a44a';
+      ctx.beginPath();ctx.arc(px,py,3,0,Math.PI*2);ctx.fill();
+      ctx.restore();
+    });
+    Object.keys(cities).forEach(function(key){
+      var city=cities[key];
+      var cx=city.x*W,cy=city.y*H;
+      var col=typeColors[city.type]||'#c4a44a';
+      var pulse=Math.sin(t*2+cx*.01)*.3+.7;
+      ctx.save();
+      ctx.globalAlpha=.15*pulse;
+      ctx.fillStyle=col;
+      ctx.beginPath();ctx.arc(cx,cy,14,0,Math.PI*2);ctx.fill();
+      ctx.globalAlpha=.8;
+      ctx.fillStyle=col;
+      ctx.beginPath();ctx.arc(cx,cy,5,0,Math.PI*2);ctx.fill();
+      ctx.globalAlpha=.9;
+      ctx.fillStyle=col;
+      ctx.font='500 11px "Space Mono", monospace';
+      ctx.textAlign=cx>W*.5?'right':'left';
+      var lx=cx>W*.5?cx-10:cx+10;
+      ctx.fillText(city.label,lx,cy-8);
+      ctx.restore();
+    });
+    requestAnimationFrame(draw);
+  }
+  resize();draw();window.addEventListener('resize',resize);
+})();
+
+(function blueCanvas(){
+  var c=document.getElementById('bcanv');if(!c)return;
+  var ctx=c.getContext('2d'),W,H,t=0;
+  function resize(){W=c.width=c.offsetWidth;H=c.height=c.offsetHeight;}
+  function draw(){
+    t+=.004;ctx.clearRect(0,0,W,H);
+    for(var i=0;i<5;i++){var cx=W*(.15+i*.16)+Math.sin(t+i)*W*.07,cy=H*.5+Math.cos(t*.8+i)*H*.22;var g=ctx.createRadialGradient(cx,cy,0,cx,cy,W*.25);g.addColorStop(0,'rgba(28,68,140,.55)');g.addColorStop(1,'transparent');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);}
+    requestAnimationFrame(draw);
+  }
+  resize();draw();window.addEventListener('resize',resize);
+})();
+
+(function legCanvas(){
+  var c=document.getElementById('lcanv');if(!c)return;
+  var ctx=c.getContext('2d'),W,H,t=0,lines=[];
+  function resize(){
+    W=c.width=c.offsetWidth;H=c.height=c.offsetHeight;lines=[];
+    for(var i=0;i<35;i++)lines.push({x:Math.random()*W,y:Math.random()*H,l:50+Math.random()*170,a:Math.random()*Math.PI*2,sp:.002+Math.random()*.007,op:Math.random()*.4+.1,hue:Math.random()<.6?210:35});
+  }
+  function draw(){
+    t+=.01;ctx.clearRect(0,0,W,H);
+    lines.forEach(function(ln){
+      ln.a+=ln.sp;
+      ctx.save();ctx.globalAlpha=ln.op*(Math.sin(t+ln.x*.01)*.3+.7);
+      ctx.strokeStyle='hsl('+ln.hue+',50%,55%)';ctx.lineWidth=.8;
+      ctx.beginPath();ctx.moveTo(ln.x,ln.y);ctx.lineTo(ln.x+Math.cos(ln.a)*ln.l,ln.y+Math.sin(ln.a)*ln.l);ctx.stroke();ctx.restore();
+    });
+    requestAnimationFrame(draw);
+  }
+  resize();draw();window.addEventListener('resize',resize);
+})();
+</script>
+</body>
+</html>
